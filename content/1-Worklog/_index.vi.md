@@ -1,4 +1,4 @@
-﻿---
+---
 title: "Nhật ký công việc"
 date: 2024-01-01
 weight: 1
@@ -7,10 +7,7 @@ pre: " <b> 1. </b> "
 ---
 
 
-**Trong trang này** bạn sẽ cần giới thiệu worklog của bạn **như thế nào**? Bạn hoàn thành chương trình trong vòng **bao nhiêu tuần**? Bạn **đã làm gì** trong các tuần đó?
-
-
-Thông thường và cũng là tiêu chuẩn, một worklog được thực hiện trong khoảng 3 tháng (trong suốt thời gian thực tập) với nội dung các tuần như sau:
+Dưới đây là nhật ký công việc chi tiết của tôi qua 12 tuần thực hiện chương trình thực tập First Cloud AI Journey:
 
 **Tuần 1:** [Tìm kiếm nơi thực tập](1.1-week1/)
 

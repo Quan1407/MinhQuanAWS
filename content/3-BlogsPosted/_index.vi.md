@@ -1,4 +1,4 @@
-﻿---
+---
 title: "Các bài blogs đã đăng"
 date: 2024-01-01
 weight: 3
@@ -7,7 +7,7 @@ pre: " <b> 3. </b> "
 ---
 
 
-Tại đây sẽ là phần liệt kê, giới thiệu các blogs mà các bạn đã đăng trên [AWS Study Group](https://www.facebook.com/groups/awsstudygroupfcj). Ví dụ:
+Dưới đây là danh sách các bài viết chia sẻ kỹ thuật tôi đã đăng tải trên cộng đồng AWS Study Group trong suốt thời gian thực tập:
 
 ###  [Blog 1 - INNOVATION SANDBOX TRÊN AWS VỚI BẢNG ĐIỀU KHIỂN PHÂN TÍCH THỜI GIAN THỰC](3.1-Blog1/)
 Blog này giới thiệu giải pháp xây dựng Innovation Sandbox trên AWS kết hợp bảng điều khiển phân tích thời gian thực và trợ lý AI Amazon Q Business để phục vụ việc cấp phát tài khoản tự động và giám sát tài nguyên hiệu quả.

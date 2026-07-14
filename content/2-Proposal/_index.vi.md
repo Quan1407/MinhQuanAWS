@@ -1,12 +1,10 @@
-﻿---
+---
 title: "Bản đề xuất"
 date: 2024-01-01
 weight: 2
 chapter: false
 pre: " <b> 2. </b> "
 ---
-
-Tại phần này, bạn cần tóm tắt các nội dung trong workshop mà bạn **dự tính** sẽ làm.
 
 # IoT Weather Platform for Lab Research  
 ## Giải pháp AWS Serverless hợp nhất cho giám sát thời tiết thời gian thực  

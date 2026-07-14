@@ -1,4 +1,4 @@
-﻿---
+---
 title: "Blogs Posted"
 date: 2024-01-01
 weight: 3
@@ -7,7 +7,7 @@ pre: " <b> 3. </b> "
 ---
 
 
-This section will list and introduce the blogs you have posted to [AWS Study Group](https://www.facebook.com/groups/awsstudygroupfcj). For example:
+Below is the list of technical posts I have published on the AWS Study Group community during my internship:
 
 ###  [Blog 1 - INNOVATION SANDBOX ON AWS WITH REAL-TIME ANALYTICS DASHBOARD](3.1-Blog1/)
 This blog introduces the Innovation Sandbox solution on AWS, which combines a real-time analytics dashboard and the Amazon Q Business AI assistant for automated account provisioning and resource monitoring.

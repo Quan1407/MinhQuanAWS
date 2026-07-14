@@ -1,4 +1,4 @@
-﻿---
+---
 title: "Worklog"
 date: 2024-01-01
 weight: 1
@@ -7,9 +7,7 @@ pre: " <b> 1. </b> "
 ---
 
 
-**On this page**, you will need to introduce your worklog. **How** did you complete it? How many weeks did you take to complete the program? **What** did you do in those weeks?
-
-Typically, and as a standard, a worklog is carried out over about 3 months (throughout the internship period) with weekly contents as follows:
+Below is my detailed worklog across the 12 weeks of the First Cloud AI Journey internship program:
 
 **Week 1:** [Looking for an internship place](1.1-week1/)
 
