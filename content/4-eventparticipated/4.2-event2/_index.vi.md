@@ -4,13 +4,18 @@ date: 2026-07-21
 weight: 2
 chapter: false
 pre: " <b> 4.2. </b> "
+aliases:
+  - /vi/4-eventparticipated/4.2-event2/
+  - /vi/4-eventparticipated/4.2-Event2/
+  - /4-eventparticipated/4.2-event2/
+  - /4-eventparticipated/4.2-Event2/
 ---
 
 # Bài thu hoạch “FCAJ Community Day”
 
 ### Thông tin chung về sự kiện
 *   **Tên Sự Kiện**: FCAJ Community Day
-*   **Thời gian tổ chức**: 09-05-2026
+*   **Thời gian tổ chức**: 27-06-2026
 *   **Địa điểm tổ chức**: Tầng 26, tòa nhà Bitexco, số 02 đường Hải Triều, phường Sài Gòn, thành phố Hồ Chí Minh
 *   **Đơn vị tổ chức**: AWS Study Group phối hợp cùng cộng đồng FCAJ
 *   **Vai trò tham gia**: Người tham dự
@@ -91,8 +96,8 @@ Workshop cho thấy AI đang trở thành xu hướng quan trọng trong lĩnh v
 
 ### Một số hình ảnh khi tham gia sự kiện
 
-![Slide giới thiệu về AgenticOps cho hạ tầng Cloud](/images/4-EventParticipated/Event2/slide_agenticops.png)
+![Slide giới thiệu về AgenticOps cho hạ tầng Cloud](/images/4-eventparticipated/event2/slide_agenticops.png)
 
-![Toàn cảnh diễn giả chia sẻ tại hội trường sự kiện FCAJ Community Day](/images/4-EventParticipated/Event2/event_hall_presentation.png)
+![Toàn cảnh diễn giả chia sẻ tại hội trường sự kiện FCAJ Community Day](/images/4-eventparticipated/event2/event_hall_presentation.png)
 
-![Hình ảnh tập thể tất cả các thành viên tham gia sự kiện FCAJ Community Day](/images/4-EventParticipated/Event2/group_photo_fcaj.png)
+![Hình ảnh tập thể tất cả các thành viên tham gia sự kiện FCAJ Community Day](/images/4-eventparticipated/event2/group_photo_fcaj.png)

@@ -8,7 +8,7 @@ pre: " <b> 4. </b> "
 
 During my internship, I participated in events that provided valuable insights into modern cloud solutions and artificial intelligence:
 
-### [Event 1](4.1-Event1/)
+### [Event 1](4.1-event1/)
 &emsp;**Event Title:** GenAI-powered App-DB Modernization workshop
 
 &emsp;**Date:** 09:00, August 13, 2025
@@ -17,10 +17,10 @@ During my internship, I participated in events that provided valuable insights i
 
 &emsp;**Role:** Participant
 
-### [Event 2](4.2-Event2/)
+### [Event 2](4.2-event2/)
 &emsp;**Event Title:** FCAJ Community Day
 
-&emsp;**Date:** May 9, 2026
+&emsp;**Date:** June 27, 2026
 
 &emsp;**Location:** 26th Floor, Bitexco Financial Tower, 02 Hai Trieu, Saigon Ward, Ho Chi Minh City
 
