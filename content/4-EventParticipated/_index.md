@@ -1,29 +1,29 @@
 ---
 title: "Events Participated"
-date: 2024-01-01
+date: 2026-07-21
 weight: 4
 chapter: false
 pre: " <b> 4. </b> "
 ---
 
-During my internship, I participated in two events. Each one was a memorable experience that provided new, interesting, and useful knowledge, along with gifts and wonderful moments.
+During my internship, I participated in events that provided valuable insights into modern cloud solutions and artificial intelligence:
 
-### [Event 1](4.1-Event1/)  
-&emsp;**Event Name:** GenAI-powered App-DB Modernization workshop  
+### [Event 1](4.1-Event1/)
+&emsp;**Event Title:** GenAI-powered App-DB Modernization workshop
 
-&emsp;**Date & Time:** 09:00, August 13, 2025  
+&emsp;**Date:** 09:00, August 13, 2025
 
-&emsp;**Location:** 26th Floor, Bitexco Tower, 02 Hai Trieu Street, Saigon Ward, Ho Chi Minh City  
+&emsp;**Location:** 26th Floor, Bitexco Financial Tower, 02 Hai Trieu, Saigon Ward, Ho Chi Minh City
 
-&emsp;**Role:** Attendee  
+&emsp;**Role:** Participant
 
----
+### [Event 2](4.2-Event2/)
+&emsp;**Event Title:** FCAJ Community Day
 
-### [Event 2](4.2-Event2/)  
-&emsp;**Event Name:** GenAI-powered App-DB Modernization workshop  
+&emsp;**Date:** May 9, 2026
 
-&emsp;**Date & Time:** 09:00, August 13, 2025  
+&emsp;**Location:** 26th Floor, Bitexco Financial Tower, 02 Hai Trieu, Saigon Ward, Ho Chi Minh City
 
-&emsp;**Location:** 26th Floor, Bitexco Tower, 02 Hai Trieu Street, Saigon Ward, Ho Chi Minh City  
+&emsp;**Organizer:** AWS Study Group in collaboration with FCAJ Community
 
-&emsp;**Role:** Attendee  
+&emsp;**Role:** Participant

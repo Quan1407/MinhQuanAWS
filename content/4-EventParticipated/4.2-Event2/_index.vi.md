@@ -1,122 +1,98 @@
-﻿---
+---
 title: "Event 2"
-date: 2024-01-01
-weight: 1
+date: 2026-07-21
+weight: 2
 chapter: false
 pre: " <b> 4.2. </b> "
 ---
 
+# Bài thu hoạch “FCAJ Community Day”
 
-# Bài thu hoạch “GenAI-powered App-DB Modernization workshop”
+### Thông tin chung về sự kiện
+*   **Tên Sự Kiện**: FCAJ Community Day
+*   **Thời gian tổ chức**: 09-05-2026
+*   **Địa điểm tổ chức**: Tầng 26, tòa nhà Bitexco, số 02 đường Hải Triều, phường Sài Gòn, thành phố Hồ Chí Minh
+*   **Đơn vị tổ chức**: AWS Study Group phối hợp cùng cộng đồng FCAJ
+*   **Vai trò tham gia**: Người tham dự
 
-### Mục Đích Của Sự Kiện
+---
 
-- Chia sẻ best practices trong thiết kế ứng dụng hiện đại
-- Giới thiệu phương pháp DDD và event-driven architecture
-- Hướng dẫn lựa chọn compute services phù hợp
-- Giới thiệu công cụ AI hỗ trợ development lifecycle
+### Mục đích của sự kiện
+*   **Mục tiêu của chương trình**: Giới thiệu xu hướng ứng dụng AI Agent (Agentic AI) vào quá trình quản trị và vận hành hạ tầng Cloud nhằm tự động hóa các tác vụ, nâng cao hiệu quả quản lý hệ thống và tối ưu chi phí vận hành.
+*   **Nội dung chính muốn truyền tải**: Giới thiệu khái niệm AgenticOps, vai trò của AI Agent trong Cloud Operations, cách AI hỗ trợ giám sát hệ thống, phân tích log, phát hiện sự cố, tối ưu tài nguyên và tự động hóa quy trình vận hành trên nền tảng Cloud.
+*   **Giá trị dành cho người tham dự**: Giúp người tham dự hiểu được xu hướng kết hợp AI với Cloud, nắm được các ứng dụng thực tế của AI trong vận hành hệ thống và định hướng phát triển các kỹ năng cần thiết trong lĩnh vực Cloud và DevOps.
 
-### Danh Sách Diễn Giả
+---
 
-- **Jignesh Shah** - Director, Open Source Databases
-- **Erica Liu** - Sr. GTM Specialist, AppMod
-- **Fabrianne Effendi** - Assc. Specialist SA, Serverless Amazon Web Services
+### Nội dung nổi bật
 
-### Nội Dung Nổi Bật
+#### 1. Tổng quan vấn đề thực tế
+Trong quá trình vận hành hạ tầng Cloud, người quản trị phải theo dõi nhiều dịch vụ, xử lý log, cảnh báo, giám sát tài nguyên và khắc phục sự cố trong thời gian ngắn. Khi quy mô hệ thống ngày càng lớn, việc quản lý thủ công trở nên phức tạp, dễ xảy ra sai sót và tiêu tốn nhiều thời gian.
 
-#### Đưa ra các ảnh hưởng tiêu cực của kiến trúc ứng dụng cũ
+#### 2. Giải pháp được giới thiệu
+Workshop giới thiệu mô hình **AgenticOps**, trong đó AI Agent hỗ trợ tự động phân tích dữ liệu vận hành, giám sát hệ thống, phát hiện bất thường, đề xuất hướng xử lý và hỗ trợ tối ưu tài nguyên Cloud. Ngoài ra, AI còn hỗ trợ tự động hóa các quy trình vận hành lặp đi lặp lại, giúp đội ngũ kỹ thuật tập trung vào những công việc có giá trị cao hơn.
 
-- Thời gian release sản phẩm lâu → Mất doanh thu/bỏ lỡ cơ hội
-- Hoạt động kém hiệu quả → Mất năng suất, tốn kém chi phí
-- Không tuân thủ các quy định về bảo mật → Mất an ninh, uy tín
+#### 3. Công nghệ, dịch vụ và công cụ
+Các nội dung được giới thiệu bao gồm:
+*   AI Agent trong Cloud Operations.
+*   AI hỗ trợ phân tích Log và Monitoring.
+*   Cloud Automation & Cloud Monitoring.
+*   Incident Detection (Phát hiện sự cố).
+*   Infrastructure Optimization (Tối ưu hóa hạ tầng).
+*   Các dịch vụ Cloud phục vụ quản lý và vận hành hệ thống.
 
-#### Chuyển đổi sang kiến trúc ứng dụng mới - Microservice Architecture
+#### 4. Demo và Case Study thực tế
+Workshop trình bày các ví dụ về việc ứng dụng AI vào quản lý hệ thống Cloud, từ quá trình thu thập dữ liệu vận hành, phân tích log, phát hiện sự cố cho đến đề xuất phương án xử lý. Thông qua các tình huống thực tế, người tham dự hiểu rõ hơn cách AI Agent hỗ trợ giảm thời gian phản hồi, tăng độ chính xác trong vận hành và nâng cao hiệu quả quản trị hạ tầng Cloud.
 
-Chuyển đổi thành hệ thống modular – từng chức năng là một **dịch vụ độc lập** giao tiếp với nhau qua **sự kiện** với 3 trụ cột cốt lõi:
+---
 
-- **Queue Management**: Xử lý tác vụ bất đồng bộ
-- **Caching Strategy:** Tối ưu performance
-- **Message Handling:** Giao tiếp linh hoạt giữa services
+### Những gì học được
 
-#### Domain-Driven Design (DDD)
+#### 1. Tư duy và phương pháp
+Hiểu được AI không chỉ là công cụ hỗ trợ tạo nội dung mà còn có thể trở thành trợ lý thông minh trong việc quản trị hệ thống Cloud. Việc kết hợp giữa kiến thức chuyên môn và AI sẽ giúp nâng cao hiệu quả công việc.
 
-- **Phương pháp 4 bước**: Xác định domain events → sắp xếp timeline → identify actors → xác định bounded contexts
-- **Case study bookstore**: Minh họa cách áp dụng DDD thực tế
-- **Context mapping**: 7 patterns tích hợp bounded contexts
+#### 2. Kiến thức kỹ thuật
+*   Hiểu khái niệm **AgenticOps**.
+*   Biết vai trò của **AI Agent** trong Cloud Operations.
+*   Hiểu cách AI hỗ trợ **Monitoring, Logging** và **Incident Management**.
+*   Nắm được quy trình ứng dụng AI trong quản trị hạ tầng Cloud.
 
-#### Event-Driven Architecture
+#### 3. Best Practices
+*   Kết hợp AI với kiến thức nền tảng thay vì phụ thuộc hoàn toàn vào AI.
+*   Luôn giám sát và kiểm tra kết quả do AI đề xuất trước khi áp dụng vào hệ thống thực tế.
+*   Tận dụng AI để tự động hóa các công việc lặp lại nhằm nâng cao hiệu suất vận hành.
 
-- **3 patterns tích hợp**: Publish/Subscribe, Point-to-point, Streaming
-- **Lợi ích**: Loose coupling, scalability, resilience
-- **So sánh sync vs async**: Hiểu rõ trade-offs (sự đánh đổi)
+#### 4. Kinh nghiệm thực tế
+Workshop cho thấy AI đang trở thành xu hướng quan trọng trong lĩnh vực Cloud Computing. Người làm Cloud cần liên tục cập nhật kiến thức mới để thích nghi với sự phát triển của AI và các công nghệ tự động hóa.
 
-#### Compute Evolution
+---
 
-- **Shared Responsibility Model**: Từ EC2 → ECS → Fargate → Lambda
-- **Serverless benefits**: No server management, auto-scaling, pay-for-value
-- **Functions vs Containers**: Criteria lựa chọn phù hợp
+### Ứng dụng vào công việc
+*   **Áp dụng cho dự án hiện tại**: Có thể nghiên cứu áp dụng AI để hỗ trợ giám sát hệ thống, phân tích log, theo dõi hiệu năng và phát hiện sự cố trong các dự án triển khai trên nền tảng AWS.
+*   **Công nghệ muốn thử nghiệm tiếp theo**: Tìm hiểu thêm về các giải pháp AI tích hợp với AWS nhằm xây dựng hệ thống Cloud thông minh, tự động hóa quy trình quản trị và tối ưu chi phí vận hành.
+*   **Cải thiện quy trình làm việc**: Tận dụng AI để hỗ trợ theo dõi hệ thống, phân tích dữ liệu vận hành và đề xuất phương án xử lý nhanh hơn, từ đó giảm thời gian xử lý sự cố và nâng cao chất lượng dịch vụ.
 
-#### Amazon Q Developer
+---
 
-- **SDLC automation**: Từ planning đến maintenance
-- **Code transformation**: Java upgrade, .NET modernization
-- **AWS Transform agents**: VMware, Mainframe, .NET migration
+### Trải nghiệm trong sự kiện
+*   **Học hỏi từ chương trình**: Hiểu rõ hơn về xu hướng kết hợp AI với Cloud Computing và tầm quan trọng của việc tự động hóa trong quản trị hệ thống hiện đại.
+*   **Trải nghiệm thực hành**: Quan sát các ví dụ và mô hình ứng dụng AI vào vận hành Cloud giúp hình dung rõ hơn cách triển khai trong môi trường doanh nghiệp.
+*   **Giao lưu và kết nối**: Có cơ hội trao đổi với những người quan tâm đến Cloud và AI, mở rộng kiến thức cũng như học hỏi thêm nhiều kinh nghiệm thực tế trong lĩnh vực Cloud Computing.
+*   **Điều ấn tượng nhất**: Ấn tượng nhất là khả năng AI Agent có thể hỗ trợ người quản trị Cloud trong việc phân tích dữ liệu, phát hiện sự cố và đề xuất phương án xử lý gần như theo thời gian thực, góp phần nâng cao hiệu quả vận hành hệ thống.
 
-### Những Gì Học Được
+---
 
-#### Tư Duy Thiết Kế
+### Bài học rút ra
+*   **Kiến thức quan trọng nhất**: AI sẽ trở thành công cụ hỗ trợ đắc lực trong lĩnh vực Cloud, tuy nhiên người kỹ sư vẫn cần có kiến thức nền tảng vững chắc để đánh giá, kiểm chứng và đưa ra quyết định chính xác.
+*   **Kinh nghiệm thực tế**: Việc kết hợp giữa kỹ năng chuyên môn và AI sẽ giúp nâng cao năng suất làm việc, giảm các tác vụ thủ công và tối ưu quy trình quản trị hạ tầng Cloud.
+*   **Định hướng học tập tiếp theo**: Tiếp tục tìm hiểu về AI Agent, Cloud Automation, DevOps và các dịch vụ AI trên AWS để nâng cao kỹ năng triển khai, quản trị và vận hành hệ thống Cloud trong thực tế.
 
-- **Business-first approach**: Luôn bắt đầu từ business domain, không phải technology
-- **Ubiquitous language**: Importance của common vocabulary giữa business và tech teams
-- **Bounded contexts**: Cách identify và manage complexity trong large systems
+---
 
-#### Kiến Trúc Kỹ Thuật
+### Một số hình ảnh khi tham gia sự kiện
 
-- **Event storming technique**: Phương pháp thực tế để mô hình hóa quy trình kinh doanh
-- Sử dụng **Event-driven communication** thay vì synchronous calls
-- **Integration patterns**: Hiểu khi nào dùng sync, async, pub/sub, streaming
-- **Compute spectrum**: Criteria chọn từ VM → containers → serverless
+![Slide giới thiệu về AgenticOps cho hạ tầng Cloud](/images/4-EventParticipated/Event2/slide_agenticops.png)
 
-#### Chiến Lược Hiện Đại Hóa
+![Toàn cảnh diễn giả chia sẻ tại hội trường sự kiện FCAJ Community Day](/images/4-EventParticipated/Event2/event_hall_presentation.png)
 
-- **Phased approach**: Không rush, phải có roadmap rõ ràng
-- **7Rs framework**: Nhiều con đường khác nhau tùy thuộc vào đặc điểm của mỗi ứng dụng
-- **ROI measurement**: Cost reduction + business agility
-
-### Ứng Dụng Vào Công Việc
-
-- **Áp dụng DDD** cho project hiện tại: Event storming sessions với business team
-- **Refactor microservices**: Sử dụng bounded contexts để identify service boundaries
-- **Implement event-driven patterns**: Thay thế một số sync calls bằng async messaging
-- **Serverless adoption**: Pilot AWS Lambda cho một số use cases phù hợp
-- **Try Amazon Q Developer**: Integrate vào development workflow để boost productivity
-
-### Trải nghiệm trong event
-
-Tham gia workshop **“GenAI-powered App-DB Modernization”** là một trải nghiệm rất bổ ích, giúp tôi có cái nhìn toàn diện về cách hiện đại hóa ứng dụng và cơ sở dữ liệu bằng các phương pháp và công cụ hiện đại. Một số trải nghiệm nổi bật:
-
-#### Học hỏi từ các diễn giả có chuyên môn cao
-- Các diễn giả đến từ AWS và các tổ chức công nghệ lớn đã chia sẻ **best practices** trong thiết kế ứng dụng hiện đại.
-- Qua các case study thực tế, tôi hiểu rõ hơn cách áp dụng **Domain-Driven Design (DDD)** và **Event-Driven Architecture** vào các project lớn.
-
-#### Trải nghiệm kỹ thuật thực tế
-- Tham gia các phiên trình bày về **event storming** giúp tôi hình dung cách **mô hình hóa quy trình kinh doanh** thành các domain events.
-- Học cách **phân tách microservices** và xác định **bounded contexts** để quản lý sự phức tạp của hệ thống lớn.
-- Hiểu rõ trade-offs giữa **synchronous và asynchronous communication** cũng như các pattern tích hợp như **pub/sub, point-to-point, streaming**.
-
-#### Ứng dụng công cụ hiện đại
-- Trực tiếp tìm hiểu về **Amazon Q Developer**, công cụ AI hỗ trợ SDLC từ lập kế hoạch đến maintenance.
-- Học cách **tự động hóa code transformation** và pilot serverless với **AWS Lambda**, từ đó nâng cao năng suất phát triển.
-
-#### Kết nối và trao đổi
-- Workshop tạo cơ hội trao đổi trực tiếp với các chuyên gia, đồng nghiệp và team business, giúp **nâng cao ngôn ngữ chung (ubiquitous language)** giữa business và tech.
-- Qua các ví dụ thực tế, tôi nhận ra tầm quan trọng của **business-first approach**, luôn bắt đầu từ nhu cầu kinh doanh thay vì chỉ tập trung vào công nghệ.
-
-#### Bài học rút ra
-- Việc áp dụng DDD và event-driven patterns giúp giảm **coupling**, tăng **scalability** và **resilience** cho hệ thống.
-- Chiến lược hiện đại hóa cần **phased approach** và đo lường **ROI**, không nên vội vàng chuyển đổi toàn bộ hệ thống.
-- Các công cụ AI như Amazon Q Developer có thể **boost productivity** nếu được tích hợp vào workflow phát triển hiện tại.
-
-#### Một số hình ảnh khi tham gia sự kiện
-* Thêm các hình ảnh của các bạn tại đây
-> Tổng thể, sự kiện không chỉ cung cấp kiến thức kỹ thuật mà còn giúp tôi thay đổi cách tư duy về thiết kế ứng dụng, hiện đại hóa hệ thống và phối hợp hiệu quả hơn giữa các team.
+![Hình ảnh tập thể tất cả các thành viên tham gia sự kiện FCAJ Community Day](/images/4-EventParticipated/Event2/group_photo_fcaj.png)
