@@ -4,6 +4,9 @@ date: 2026-07-21
 weight: 1
 chapter: false
 pre: " <b> 5.1. </b> "
+aliases:
+  - /vi/5-workshop/5.1-serverless-game-backend/
+  - /vi/5-workshop/5.1-workshop-overview/
 ---
 
 # 5.1. Chuẩn bị Môi trường & Thiết lập Region
