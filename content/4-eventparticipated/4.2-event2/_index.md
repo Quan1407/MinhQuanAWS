@@ -34,18 +34,6 @@ aliases:
 #### 1. Real-World Challenges
 In Cloud operations, administrators must manage multiple services, handle logs, monitor alerts, and resolve incidents under tight time constraints. As systems scale, manual management becomes increasingly complex, prone to error, and time-consuming.
 
-#### 2. Featured Solution
-The workshop introduced the **AgenticOps** model, where AI Agents automatically analyze operational data, monitor systems, detect anomalies, suggest resolutions, and optimize cloud resources. Furthermore, AI automates repetitive operational tasks, allowing engineering teams to focus on high-value activities.
-
-#### 3. Technologies & Tools
-Topics covered included:
-*   AI Agents in Cloud Operations.
-*   AI-driven Log Analysis and Monitoring.
-*   Cloud Automation & Cloud Monitoring.
-*   Incident Detection.
-*   Infrastructure Optimization.
-*   AWS Cloud Services for System Management & Operations.
-
 #### 4. Demos & Case Studies
 The workshop presented practical case studies demonstrating AI integration into Cloud management workflows—from data collection and log analysis to anomaly detection and automated remediation suggestions. Participants observed how AI Agents reduce response times and boost operational precision.
 
@@ -78,8 +66,8 @@ Recognized that AI serves not only as a content creation tool but also as a smar
 
 ### Event Impressions & Photos
 
-![AgenticOps presentation slide](/images/4-eventparticipated/event2/slide_agenticops.png?v=2)
+![AgenticOps presentation slide](/images/4-eventparticipated/event2/slide_agenticops.jpg?v=2)
 
-![Speaker presentation at FCAJ Community Day](/images/4-eventparticipated/event2/event_hall_presentation.png?v=2)
+![Speaker presentation at FCAJ Community Day](/images/4-eventparticipated/event2/event_hall_presentation.jpg?v=2)
 
 ![Group photo of all FCAJ Community Day participants](/images/4-eventparticipated/event2/group_photo_fcaj.png?v=2)

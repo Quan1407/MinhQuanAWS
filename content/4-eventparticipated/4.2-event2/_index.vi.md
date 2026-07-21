@@ -34,18 +34,6 @@ aliases:
 #### 1. Tổng quan vấn đề thực tế
 Trong quá trình vận hành hạ tầng Cloud, người quản trị phải theo dõi nhiều dịch vụ, xử lý log, cảnh báo, giám sát tài nguyên và khắc phục sự cố trong thời gian ngắn. Khi quy mô hệ thống ngày càng lớn, việc quản lý thủ công trở nên phức tạp, dễ xảy ra sai sót và tiêu tốn nhiều thời gian.
 
-#### 2. Giải pháp được giới thiệu
-Workshop giới thiệu mô hình **AgenticOps**, trong đó AI Agent hỗ trợ tự động phân tích dữ liệu vận hành, giám sát hệ thống, phát hiện bất thường, đề xuất hướng xử lý và hỗ trợ tối ưu tài nguyên Cloud. Ngoài ra, AI còn hỗ trợ tự động hóa các quy trình vận hành lặp đi lặp lại, giúp đội ngũ kỹ thuật tập trung vào những công việc có giá trị cao hơn.
-
-#### 3. Công nghệ, dịch vụ và công cụ
-Các nội dung được giới thiệu bao gồm:
-*   AI Agent trong Cloud Operations.
-*   AI hỗ trợ phân tích Log và Monitoring.
-*   Cloud Automation & Cloud Monitoring.
-*   Incident Detection (Phát hiện sự cố).
-*   Infrastructure Optimization (Tối ưu hóa hạ tầng).
-*   Các dịch vụ Cloud phục vụ quản lý và vận hành hệ thống.
-
 #### 4. Demo và Case Study thực tế
 Workshop trình bày các ví dụ về việc ứng dụng AI vào quản lý hệ thống Cloud, từ quá trình thu thập dữ liệu vận hành, phân tích log, phát hiện sự cố cho đến đề xuất phương án xử lý. Thông qua các tình huống thực tế, người tham dự hiểu rõ hơn cách AI Agent hỗ trợ giảm thời gian phản hồi, tăng độ chính xác trong vận hành và nâng cao hiệu quả quản trị hạ tầng Cloud.
 
@@ -96,8 +84,8 @@ Workshop cho thấy AI đang trở thành xu hướng quan trọng trong lĩnh v
 
 ### Một số hình ảnh khi tham gia sự kiện
 
-![Slide giới thiệu về AgenticOps cho hạ tầng Cloud](/images/4-eventparticipated/event2/slide_agenticops.png?v=2)
+![Slide giới thiệu về AgenticOps cho hạ tầng Cloud](/images/4-eventparticipated/event2/slide_agenticops.jpg?v=2)
 
-![Toàn cảnh diễn giả chia sẻ tại hội trường sự kiện FCAJ Community Day](/images/4-eventparticipated/event2/event_hall_presentation.png?v=2)
+![Toàn cảnh diễn giả chia sẻ tại hội trường sự kiện FCAJ Community Day](/images/4-eventparticipated/event2/event_hall_presentation.jpg?v=2)
 
 ![Hình ảnh tập thể tất cả các thành viên tham gia sự kiện FCAJ Community Day](/images/4-eventparticipated/event2/group_photo_fcaj.png?v=2)
