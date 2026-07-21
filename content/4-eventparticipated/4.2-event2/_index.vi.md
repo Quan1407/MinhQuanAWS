@@ -5,10 +5,10 @@ weight: 2
 chapter: false
 pre: " <b> 4.2. </b> "
 aliases:
-  - /vi/4-eventparticipated/4.2-event2/
-  - /vi/4-eventparticipated/4.2-Event2/
-  - /4-eventparticipated/4.2-event2/
   - /4-eventparticipated/4.2-Event2/
+  - /4-eventparticipated/4.2-event2/
+  - /4-EventParticipated/4.2-Event2/
+  - /4-EventParticipated/4.2-event2/
 ---
 
 # Bài thu hoạch “FCAJ Community Day”
