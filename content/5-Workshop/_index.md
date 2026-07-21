@@ -1,28 +1,32 @@
-﻿---
+---
 title: "Workshop"
-date: 2024-01-01
+date: 2026-07-21
 weight: 5
 chapter: false
 pre: " <b> 5. </b> "
 ---
 
-# Secure Hybrid Access to S3 using VPC Endpoints
+# Step-by-Step Guide: Building a Serverless & Event-Driven Game Backend on AWS
 
-#### Overview
+#### Workshop Overview
 
-**AWS PrivateLink** provides private connectivity to AWS services from VPCs and your on-premises networks, without exposing your traffic to the Public Internet.
+In this hands-on workshop, we will step-by-step deploy a complete cloud infrastructure for a **Live-Service Game Backend** on AWS. The system utilizes a Serverless & Event-Driven architecture, maximizing cost savings by only spinning up EC2 Spot instances during active game sessions.
 
-In this lab, you will learn how to create, configure, and test VPC endpoints that enable your workloads to reach AWS services without traversing the Public Internet.
+#### Workshop Objectives:
+1.  **Player Authentication**: Configure Amazon Cognito User Pool for user authentication and Amazon Cognito Identity Pool to delegate scoped temporary IAM credentials for direct S3 asset/patch downloads.
+2.  **Match State Storage**: Provision Amazon DynamoDB tables (`MatchmakingQueue` and `ActiveMatches`) optimized for high-throughput match queues.
+3.  **Matchmaking Pipeline**: Develop the AWS Lambda Matchmaker logic to handle `POST /join` and `GET /check` endpoints, exposed via API Gateway REST API secured by Cognito Authorizers and CORS.
+4.  **Game Server Fleet & GitOps Automation**: Provision an EC2 Ubuntu 24.04 LTS Game Server, bake custom AMIs, configure Launch Templates for EC2 Spot Fleets with ASG Warm Pools, and set up GitHub OIDC with AWS CodeDeploy for automated CI/CD pipelines.
+5.  **Asynchronous Post-Match Analytics**: Enable DynamoDB Streams and implement an Async Lambda worker to process post-match logs without adding latency to matchmaking.
 
-You will create two types of endpoints to access Amazon S3: a Gateway VPC endpoint, and an Interface VPC endpoint. These two types of VPC endpoints offer different benefits depending on if you are accessing Amazon S3 from the cloud or your on-premises location
-+ **Gateway** - Create a gateway endpoint to send traffic to Amazon S3 or DynamoDB using private IP addresses.You route traffic from your VPC to the gateway endpoint using route tables.
-+ **Interface** - Create an interface endpoint to send traffic to endpoint services that use a Network Load Balancer to distribute traffic. Traffic destined for the endpoint service is resolved using DNS.
+---
 
-#### Content
+#### Workshop Agenda:
 
-1. [Workshop overview](5.1-Workshop-overview)
-2. [Prerequiste](5.2-Prerequiste/)
-3. [Access S3 from VPC](5.3-S3-vpc/)
-4. [Access S3 from On-premises](5.4-S3-onprem/)
-5. [VPC Endpoint Policies (Bonus)](5.5-Policy/)
-6. [Clean up](5.6-Cleanup/)
+1. [5.1. Workshop Overview](5.1-workshop-overview/)
+2. [5.2. Prerequisites & Region Setup](5.2-prerequiste/)
+3. [5.3. Amazon Cognito & DynamoDB Tables Setup](5.3-cognito-dynamodb/)
+4. [5.4. Lambda Matchmaker & API Gateway REST API Deployment](5.4-matchmaker-api/)
+5. [5.5. EC2 Spot Fleet, Launch Template & GitOps CodeDeploy Setup](5.5-ec2-fleet-gitops/)
+6. [5.6. Asynchronous Post-Match Analytics with DynamoDB Streams](5.6-async-analytics/)
+7. [5.7. Resource Cleanup](5.7-cleanup/)

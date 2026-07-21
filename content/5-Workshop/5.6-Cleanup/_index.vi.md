@@ -1,37 +1,59 @@
 ---
-title : "Dọn dẹp tài nguyên"
-date : 2024-01-01
-weight : 6
-chapter : false
-pre : " <b> 5.6. </b> "
+title: "Asynchronous Analytics"
+date: 2026-07-21
+weight: 6
+chapter: false
+pre: " <b> 5.6. </b> "
 ---
 
-#### Dọn dẹp tài nguyên
+# Xử lý Asynchronous Analytics với DynamoDB Streams & Lambda
 
-Xin chúc mừng bạn đã hoàn thành xong lab này!
-Trong lab này, bạn đã học về các mô hình kiến trúc để truy cập Amazon S3 mà không sử dụng Public Internet.
+Trong phần này, chúng ta sẽ cấu hình **DynamoDB Streams** trên bảng DynamoDB và viết hàm **MatchAnalytic Lambda** để thu thập log, xử lý thống kê và phân tích kết quả sau trận đấu một cách hoàn toàn bất đồng bộ (Asynchronous Event Processing), không gây bất kỳ độ trễ nào cho luồng ghép trận.
 
-+ Bằng cách tạo Gateway endpoint, bạn đã cho phép giao tiếp trực tiếp giữa các tài nguyên EC2 và Amazon S3, mà không đi qua Internet Gateway.
-Bằng cách tạo Interface endpoint, bạn đã mở rộng kết nối S3 đến các tài nguyên chạy trên trung tâm dữ liệu trên chỗ của bạn thông qua AWS Site-to-Site VPN hoặc Direct Connect.
+---
 
-#### Dọn dẹp
-1. Điều hướng đến Hosted Zones trên phía trái của bảng điều khiển Route 53. Nhấp vào tên của  s3.us-east-1.amazonaws.com zone. Nhấp vào Delete và xác nhận việc xóa bằng cách nhập từ khóa "delete".
+### Bước 1: Kích hoạt DynamoDB Streams
+1. Truy cập dịch vụ **Amazon DynamoDB** -> **Tables** -> chọn bảng `ActiveMatches`.
+2. Chọn tab **Exports and streams** -> chọn **DynamoDB stream details**.
+3. Bấm **Turn on**, chọn **New and old images** (Lưu lại cả trạng thái trước và sau khi thay đổi). Bấm **Turn on stream**.
 
-![hosted zone](/images/5-Workshop/5.6-Cleanup/delete-zone.png)
+---
 
-2. Disassociate Route 53 Resolver Rule - myS3Rule from "VPC Onprem" and Delete it. 
+### Bước 2: Tạo IAM Role cho MatchAnalytic Lambda
+1. Truy cập **AWS IAM** -> **Roles** -> chọn **Create role**.
+2. Chọn Trusted Entity: **AWS service** -> **Lambda**.
+3. Đặt tên Role: `MatchAnalyticLambdaRole`.
+4. Tạo Policy đính kèm cho phép Lambda đọc dữ liệu từ DynamoDB Stream:
 
-![hosted zone](/images/5-Workshop/5.6-Cleanup/vpc.png)
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator",
+        "dynamodb:DescribeStream",
+        "dynamodb:ListStreams"
+      ],
+      "Resource": "arn:aws:dynamodb:ap-southeast-1:*:table/ActiveMatches/stream/*"
+    }
+  ]
+}
+```
 
-4.Mở console của CloudFormation và xóa hai stack CloudFormation mà bạn đã tạo cho bài thực hành này:
-+ PLOnpremSetup
-+ PLCloudSetup
+5. Bấm **Create role**.
 
-![delete stack](/images/5-Workshop/5.6-Cleanup/delete-stack.png)
+---
 
-5. Xóa các S3 bucket
+### Bước 3: Tạo & Kết nối MatchAnalytic Lambda
+1. Truy cập **AWS Lambda** -> **Create function**.
+2. Đặt tên hàm: `MatchAnalyticLambda`, chọn IAM Role `MatchAnalyticLambdaRole`.
+3. Nhấn **Add trigger**, chọn **DynamoDB**.
+4. Chọn DynamoDB table: `ActiveMatches`, Batch size: `100`, Starting position: **Latest**. Bấm **Add**.
 
-+ Mở bảng điều khiển S3
-+ Chọn bucket chúng ta đã tạo cho lab, nhấp chuột và xác nhận là empty. Nhấp Delete và xác nhận delete.
-+ 
-![delete s3](/images/5-Workshop/5.6-Cleanup/delete-s3.png)
+![Tạo MatchAnalytic Lambda & DynamoDB Stream Trigger](/images/5-Workshop/img_B/image8.png)
+
+5. Dán mã nguồn xử lý phân tích log và kết quả trận đấu vào tab **Code** và chọn **Deploy**.
+6. Khi một trận đấu kết thúc và kết quả được ghi vào DynamoDB, DynamoDB Stream tự động kích hoạt `MatchAnalyticLambda` thu thập và đẩy log sang Data Lake/Analytics Store mà không ảnh hưởng tới độ trễ ghép trận RTT.

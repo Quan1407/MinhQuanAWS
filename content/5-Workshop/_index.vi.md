@@ -1,30 +1,32 @@
-﻿---
+---
 title: "Workshop"
-date: 2024-01-01
+date: 2026-07-21
 weight: 5
 chapter: false
 pre: " <b> 5. </b> "
 ---
 
+# Hướng dẫn chi tiết Xây dựng Serverless & Event-Driven Game Backend trên AWS
 
+#### Tổng quan bài Thực hành (Workshop)
 
-# Đảm bảo truy cập Hybrid an toàn đến S3 bằng cách sử dụng VPC endpoint
+Trong bài thực hành này, chúng ta sẽ từng bước triển khai hạ tầng đám mây hoàn chỉnh cho một hệ thống **Game Live-Service** trên AWS. Hệ thống vận hành theo cơ chế Serverless & Event-Driven, giúp tối ưu chi phí hạ tầng tối đa nhờ chỉ khởi chạy tài nguyên máy chủ EC2 Spot khi có phiên trận đấu thực tế.
 
-#### Tổng quan
+#### Mục tiêu đạt được:
+1.  **Xác thực người chơi (Player Authentication)**: Khởi tạo Amazon Cognito User Pool để xác thực tài khoản và Amazon Cognito Identity Pool để cấp phát IAM Temporary Credentials cho client tải asset/patch từ S3.
+2.  **Lưu trữ trạng thái trận đấu (Match State Storage)**: Khởi tạo các bảng DynamoDB (`MatchmakingQueue` và `ActiveMatches`) theo thiết kế tối ưu cho lưu lượng cao.
+3.  **Hệ thống ghép trận (Matchmaking Pipeline)**: Viết mã nguồn AWS Lambda Matchmaker xử lý request `POST /join` và `GET /check`, tạo REST API Gateway được bảo vệ bởi Cognito Authorizer và kích hoạt CORS.
+4.  **Tự động hóa Fleet máy chủ Game (Game Server Fleet & GitOps)**: Khởi tạo EC2 Ubuntu 24.04 LTS Game Server, tạo AMI, Launch Template cho EC2 Spot Fleet và ASG Warm Pool; cấu hình GitHub OIDC Provider và AWS CodeDeploy cho luồng CI/CD tự động.
+5.  **Xử lý phân tích sau trận đấu (Asynchronous Analytics)**: Kích hoạt DynamoDB Streams và viết Async Lambda thu thập dữ liệu sau trận mà không ảnh hưởng tới độ trễ ghép trận.
 
-**AWS PrivateLink** cung cấp kết nối riêng tư đến các dịch vụ aws từ VPCs hoặc trung tâm dữ liệu (on-premise) mà không làm lộ lưu lượng truy cập ra ngoài public internet.
+---
 
-Trong bài lab này, chúng ta sẽ học cách tạo, cấu hình, và kiểm tra VPC endpoints để cho phép workload của bạn tiếp cận các dịch vụ AWS mà không cần đi qua Internet công cộng.
+#### Danh sách các bước triển khai:
 
-Chúng ta sẽ tạo hai loại endpoints để truy cập đến Amazon S3: gateway vpc endpoint và interface vpc endpoint. Hai loại vpc endpoints này mang đến nhiều lợi ích tùy thuộc vào việc bạn truy cập đến S3 từ môi trường cloud hay từ trung tâm dữ liệu (on-premise).
-+ **Gateway** - Tạo gateway endpoint để gửi lưu lượng đến Amazon S3 hoặc DynamoDB using private IP addresses. Bạn điều hướng lưu lượng từ VPC của bạn đến gateway endpoint bằng các bảng định tuyến (route tables)
-+ **Interface** - Tạo interface endpoint để gửi lưu lượng đến các dịch vụ điểm cuối (endpoints) sử dụng Network Load Balancer để phân phối lưu lượng. Lưu lượng dành cho dịch vụ điểm cuối được resolved bằng DNS.
-
-#### Nội dung
-
-1. [Tổng quan về workshop](5.1-Workshop-overview/)
-2. [Chuẩn bị](5.2-Prerequiste/)
-3. [Truy cập đến S3 từ VPC](5.3-S3-vpc/)
-4. [Truy cập đến S3 từ TTDL On-premises](5.4-S3-onprem/)
-5. [VPC Endpoint Policies (làm thêm)](5.5-Policy/)
-6. [Dọn dẹp tài nguyên](5.6-Cleanup/)
+1. [5.1. Tổng quan bài Workshop](5.1-workshop-overview/)
+2. [5.2. Chuẩn bị môi trường & Chọn Region](5.2-prerequiste/)
+3. [5.3. Khởi tạo Amazon Cognito & DynamoDB Tables](5.3-cognito-dynamodb/)
+4. [5.4. Xây dựng Lambda Matchmaker & API Gateway REST API](5.4-matchmaker-api/)
+5. [5.5. Cấu hình EC2 Spot Fleet, Launch Template & GitOps CodeDeploy](5.5-ec2-fleet-gitops/)
+6. [5.6. Xử lý Asynchronous Post-Match với DynamoDB Streams & Analytics Lambda](5.6-async-analytics/)
+7. [5.7. Dọn dẹp tài nguyên](5.7-cleanup/)

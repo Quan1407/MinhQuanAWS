@@ -1,18 +1,31 @@
 ---
-title : "Introduction"
-date : 2024-01-01 
-weight : 1 
-chapter : false
-pre : " <b> 5.1. </b> "
+title: "Workshop Overview"
+date: 2026-07-21
+weight: 1
+chapter: false
+pre: " <b> 5.1. </b> "
 ---
 
-#### VPC endpoints
-+ **VPC endpoints** are virtual devices. They are horizontally scaled, redundant, and highly available VPC components. They allow communication between your compute resources and AWS services without imposing availability risks.
-+ Compute resources running in VPC can access  **Amazon S3**  using a Gateway endpoint. PrivateLink interface endpoints can be used by compute resources running in VPC or on-premises.
+# Workshop Overview: Building a Serverless Game Backend on AWS
 
-#### Workshop overview
-In this workshop, you will use two VPCs. 
-+ **"VPC Cloud"** is for cloud resources such as a  **Gateway endpoint** and an EC2 instance to test with. 
-+ **"VPC On-Prem"** simulates an on-premises environment such as a factory or corporate datacenter. An EC2 instance running strongSwan VPN software has been deployed in "VPC On-prem" and automatically configured to establish a Site-to-Site VPN tunnel with AWS Transit Gateway. This VPN simulates connectivity from an on-premises location to the AWS cloud. To minimize costs, only one VPN instance is provisioned to support this workshop. When planning VPN connectivity for your production workloads, AWS recommends using multiple VPN devices for high availability.
+### Introduction
+In modern live-service game development, infrastructure cost optimization and seamless scalability are critical factors for success. Traditional architectures that maintain 24/7 dedicated game server fleets incur massive idle costs during off-peak hours when active player counts drop.
 
-![overview](/images/5-Workshop/5.1-Workshop-overview/diagram1.png)
+This workshop provides a comprehensive step-by-step guide to constructing a production-ready **Serverless & Event-Driven Game Backend** on AWS.
+
+![Architecture Diagram](/images/2-Proposal/serverless_game_backend_architecture.png)
+
+### Key Architecture Components:
+*   **Player Authentication**: Uses **Amazon Cognito User Pools** for JWT authentication and **Amazon Cognito Identity Pools** to grant scoped temporary IAM credentials for direct asset downloads from S3.
+*   **Match Queue & State Storage**: Leverages **Amazon DynamoDB** with two optimized tables: `MatchmakingQueue` and `ActiveMatches`.
+*   **Matchmaking API Pipeline**: Implements an **AWS Lambda Matchmaker** inside a Private Subnet, connecting to DynamoDB and EC2 APIs via **VPC Endpoints**, exposed through **Amazon API Gateway** (REST API) secured by **Cognito Authorizers** and **AWS WAF**.
+*   **Game Server Fleet & ASG**: Provisions game instances using **Amazon EC2 Spot Fleets (Graviton ARM64)** with **Auto Scaling Group Warm Pools**, pulling server bundles on boot from S3.
+*   **Automated GitOps CI/CD**: Integrates **GitHub Actions OIDC** and **AWS CodeDeploy** for zero-downtime automated deployments of code, patches, and game server bundles.
+*   **Asynchronous Post-Match Analytics**: Uses **DynamoDB Streams** to trigger **Async Lambda** functions for capturing post-match metrics without adding latency to matchmaking.
+
+---
+
+### Estimated Workshop Metrics:
+*   **Duration**: 60 - 90 minutes.
+*   **Difficulty Level**: Intermediate / Advanced.
+*   **Estimated Cost**: Minimal (covered under AWS Free Tier or < $0.50 for EC2 Spot and Lambda/DynamoDB usage).

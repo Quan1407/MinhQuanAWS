@@ -1,99 +1,105 @@
 ---
-title : "VPC Endpoint Policies"
-date : 2024-01-01
-weight : 5
-chapter : false
-pre : " <b> 5.5. </b> "
+title: "EC2 Spot Fleet & GitOps CodeDeploy"
+date: 2026-07-21
+weight: 5
+chapter: false
+pre: " <b> 5.5. </b> "
 ---
 
-When you create an interface or gateway endpoint, you can attach an endpoint policy to it that controls access to the service to which you are connecting. A VPC endpoint policy is an IAM resource policy that you attach to an endpoint. If you do not attach a policy when you create an endpoint, AWS attaches a default policy for you that allows full access to the service through the endpoint.
+# Provisioning EC2 Spot Fleet, Launch Template & GitOps CodeDeploy
 
-You can create a policy that restricts access to specific S3 buckets only. This is useful if you only want certain S3 Buckets to be accessible through the endpoint.
+In this section, we will create a sample **Amazon EC2 (Ubuntu 24.04 LTS)** Game Server, bake a custom AMI, set up a **Launch Template** for an EC2 Spot Fleet with an **ASG Warm Pool**, configure **S3 Static Website Hosting**, and implement a **GitOps CI/CD pipeline** using **GitHub OIDC** and **AWS CodeDeploy**.
 
-In this section you will create a VPC endpoint policy that restricts access to the S3 bucket specified in the VPC endpoint policy.
+---
 
-![endpoint diagram](/images/5-Workshop/5.5-Policy/s3-bucket-policy.png)
+### Part 1: Provisioning Sample EC2 Game Server & Baking AMI
 
-#### Connect to an EC2 instance and verify connectivity to S3
+1. Navigate to **Amazon EC2** and click **Launch instance**.
+2. Configure settings:
+   * **Name**: `FightingGameServer`
+   * **AMI**: Ubuntu Server 24.04 LTS (64-bit ARM / x86)
+   * **Instance type**: `t3.small` or `t3.medium`
+   * **Key pair**: Select or create a key pair
+   * **Storage**: 8 GB gp3
+   * **Security Group**: Allow SSH (Port 22) and Game Server Ports (Port 3000/UDP/TCP).
 
-1. Start a new AWS Session Manager session on the instance named Test-Gateway-Endpoint. From the session, verify that you can list the contents of the bucket you created in Part 1: Access S3 from VPC:
+![Launch EC2 FightingGameServer](/images/5-Workshop/img_A/image88.png)
 
+3. Click **Launch instance**. Configure Node.js Game Server software on the instance.
+
+![Configure Node.js Game Server](/images/5-Workshop/img_A/image91.png)
+
+4. **Bake Custom AMI**:
+   * Select instance `FightingGameServer`, navigate to **Actions** -> **Image and templates** -> **Create image**.
+   * Name the image `FightingGameServerAMI` and click **Create image**.
+
+![Bake AMI from Instance](/images/5-Workshop/img_B/image2.png)
+
+---
+
+### Part 2: Creating Launch Template & Auto Scaling Group Warm Pool
+
+1. Navigate to **Launch Templates** -> **Create launch template**.
+2. Select AMI `FightingGameServerAMI`, enable **Spot Instance**, and attach IAM Instance Profile `FightingGameServerInstanceRole` allowing S3 asset fetching on boot.
+
+![Create Spot Launch Template](/images/5-Workshop/img_B/image3.png)
+
+3. Create an **Auto Scaling Group (ASG)** using the Launch Template and enable the **Warm Pool** feature to maintain pre-initialized, warm instances ready for instant spin-up upon matchmaking requests.
+
+![Configure ASG Warm Pool](/images/5-Workshop/img_B/image4.png)
+
+---
+
+### Part 3: Provisioning S3 Bucket & Static Website Hosting
+
+1. Navigate to **Amazon S3** and click **Create bucket**.
+2. Set bucket name (e.g., `fighting-game-assets-singapore`).
+3. Enable **Static website hosting** and configure **Bucket Policy** (public read for client assets) and **CORS Policy** to permit browser API requests.
+
+![Configure S3 Static Website Hosting & CORS](/images/5-Workshop/img_B/image6.png)
+
+---
+
+### Part 4: Configuring GitHub OIDC & AWS CodeDeploy GitOps Pipeline
+
+1. **Add GitHub Provider to AWS IAM (No long-lived access keys)**:
+   * Navigate to **IAM** -> **Identity providers** -> **Add provider**.
+   * Select **OpenID Connect**, enter Provider URL: `https://token.actions.githubusercontent.com` and Audience: `sts.amazonaws.com`.
+
+![Add GitHub OIDC Provider](/images/5-Workshop/img_B/image7.png)
+
+2. **Install AWS CodeDeploy Agent on EC2 Game Server**:
+   Execute the CodeDeploy installation script on Ubuntu 24.04 LTS:
+
+```bash
+# 1. Install prerequisites
+sudo apt-get update && sudo apt-get install -y ruby-full ruby-webrick wget gdebi-core
+
+# 2. Download raw .deb package directly
+cd /tmp
+wget https://aws-codedeploy-ap-southeast-1.s3.ap-southeast-1.amazonaws.com/releases/codedeploy-agent_1.8.1-26_all.deb
+
+# 3. Unpack, fix Ruby dependency declaration, and repack
+dpkg-deb -R codedeploy-agent_1.8.1-26_all.deb /tmp/codedeploy-extracted
+sed -i "s/ruby3.2/ruby3.3/g" /tmp/codedeploy-extracted/DEBIAN/control
+dpkg-deb -b /tmp/codedeploy-extracted /tmp/codedeploy-agent_fixed.deb
+
+# 4. Install patched package and start service
+sudo dpkg -i /tmp/codedeploy-agent_fixed.deb
+sudo systemctl enable codedeploy-agent
+sudo systemctl start codedeploy-agent
+sudo systemctl status codedeploy-agent
 ```
-aws s3 ls s3://\<your-bucket-name\>
-```
-![test](/images/5-Workshop/5.5-Policy/test1.png)
 
-The bucket contents include the two 1 GB files uploaded in earlier.
+![CodeDeploy Agent Installation Success](/images/5-Workshop/img_B/image8.png)
 
-2. Create a new S3 bucket; follow the naming pattern you used in Part 1, but add a '-2' to the name. Leave other fields as default and click create
+3. **Provision CodeDeploy Application & Deployment Group**:
+   * Navigate to **AWS CodeDeploy** -> **Applications** -> **Create application**.
+   * Application name: `FightingGameServerApp`, Compute platform: **EC2/On-premises**.
+   * Create **Deployment group**, attach CodeDeploy IAM role, and map to the EC2 Spot Fleet.
 
-![create bucket](/images/5-Workshop/5.5-Policy/create-bucket.png)
+![Create CodeDeploy Deployment Group](/images/5-Workshop/img_B/image9.png)
 
-Successfully create bucket
+4. Pushing code to GitHub triggers GitHub Actions to execute CodeDeploy jobs, deploying new builds to the game fleet with zero downtime.
 
-![Success](/images/5-Workshop/5.5-Policy/create-bucket-success.png)
-
-3. Navigate to: Services > VPC > Endpoints, then select the Gateway VPC endpoint you created earlier. Click the Policy tab. Click Edit policy.
-
-![policy](/images/5-Workshop/5.5-Policy/policy1.png)
-
-The default policy allows access to all S3 Buckets through the VPC endpoint.
-
-4. In Edit Policy console, copy & Paste the following policy, then replace yourbucketname-2 with your 2nd bucket name. This policy will allow access through the VPC endpoint to your new bucket, but not any other bucket in Amazon S3. Click Save to apply the policy.
-
-```
-{
-  "Id": "Policy1631305502445",
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Sid": "Stmt1631305501021",
-      "Action": "s3:*",
-      "Effect": "Allow",
-      "Resource": [
-      				"arn:aws:s3:::yourbucketname-2",
-       				"arn:aws:s3:::yourbucketname-2/*"
-       ],
-      "Principal": "*"
-    }
-  ]
-}
-```
-
-![custom policy](/images/5-Workshop/5.5-Policy/policy2.png)
-
-Successfully customize policy
-
-![success](/static/images/5-Workshop/5.5-Policy/success.png)
-
-5. From your session on the Test-Gateway-Endpoint instance, test access to the S3 bucket you created in Part 1: Access S3 from VPC
-```
-aws s3 ls s3://<yourbucketname>
-```
-
-This command will return an error because access to this bucket is not permitted by your new VPC endpoint policy:
-
-![error](/static/images/5-Workshop/5.5-Policy/error.png)
-
-6. Return to your home directory on your EC2 instance ` cd~ `
-
-+ Create a file ```fallocate -l 1G test-bucket2.xyz ```
-+ Copy file to 2nd bucket ```aws s3 cp test-bucket2.xyz s3://<your-2nd-bucket-name>```
-
-![success](/static/images/5-Workshop/5.5-Policy/test2.png)
-
-This operation succeeds because it is permitted by the VPC endpoint policy.
-
-![success](/static/images/5-Workshop/5.5-Policy/test2-success.png)
-
-+ Then we test access to the first bucket by copy the file to 1st bucket `aws s3 cp test-bucket2.xyz s3://<your-1st-bucket-name>`
-
-![fail](/static/images/5-Workshop/5.5-Policy/test2-fail.png)
-
-This command will return an error because access to this bucket is not permitted by your new VPC endpoint policy.
-
-#### Part 3 Summary:
-
-In this section, you created a VPC endpoint policy for Amazon S3, and used the AWS CLI to test the policy. AWS CLI actions targeted to your original S3 bucket failed because you applied a policy that only allowed access to the second bucket you created. AWS CLI actions targeted for your second bucket succeeded because the policy allowed them. These policies can be useful in situations where you need to control access to resources through VPC endpoints.
-
-
+![Successful CodeDeploy Job](/images/5-Workshop/img_B/image10.png)

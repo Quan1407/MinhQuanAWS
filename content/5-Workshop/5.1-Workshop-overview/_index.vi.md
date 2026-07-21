@@ -1,19 +1,31 @@
 ---
-title : "Giới thiệu"
-date : 2024-01-01 
-weight : 1
-chapter : false
-pre : " <b> 5.1. </b> "
+title: "Tổng quan về Workshop"
+date: 2026-07-21
+weight: 1
+chapter: false
+pre: " <b> 5.1. </b> "
 ---
 
-#### Giới thiệu về VPC Endpoint
+# Tổng quan bài Workshop: Xây dựng Serverless Game Backend trên AWS
 
-+ Điểm cuối VPC (endpoint) là thiết bị ảo. Chúng là các thành phần VPC có thể mở rộng theo chiều ngang, dự phòng và có tính sẵn sàng cao. Chúng cho phép giao tiếp giữa tài nguyên điện toán của bạn và dịch vụ AWS mà không gây ra rủi ro về tính sẵn sàng.
-+ Tài nguyên điện toán đang chạy trong VPC có thể truy cập Amazon S3 bằng cách sử dụng điểm cuối Gateway. Interface Endpoint  PrivateLink có thể được sử dụng bởi tài nguyên chạy trong VPC hoặc tại TTDL.
+### Giới thiệu
+Trong môi trường phát triển game hiện đại (đặc biệt là thể loại Live-Service Games), chi phí hạ tầng máy chủ và khả năng tự động mở rộng (scalability) là hai yếu tố sống còn. Mô hình truyền thống duy trì cụm máy chủ game chạy 24/7 gây lãng phí chi phí cực kỳ lớn trong những khoảng thời gian thấp điểm khi số lượng người chơi giảm.
 
-#### Tổng quan về workshop
-Trong workshop này, bạn sẽ sử dụng hai VPC.
-+ **"VPC Cloud"** dành cho các tài nguyên cloud như Gateway endpoint và EC2 instance để kiểm tra.
-+ **"VPC On-Prem"** mô phỏng môi trường truyền thống như nhà máy hoặc trung tâm dữ liệu của công ty. Một EC2 Instance chạy phần mềm StrongSwan VPN đã được triển khai trong "VPC On-prem" và được cấu hình tự động để thiết lập đường hầm VPN Site-to-Site với AWS Transit Gateway. VPN này mô phỏng kết nối từ một vị trí tại TTDL (on-prem) với AWS cloud. Để giảm thiểu chi phí, chỉ một phiên bản VPN được cung cấp để hỗ trợ workshop này. Khi lập kế hoạch kết nối VPN cho production workloads của bạn, AWS khuyên bạn nên sử dụng nhiều thiết bị VPN để có tính sẵn sàng cao.
+Bài workshop này sẽ hướng dẫn bạn chi tiết từng bước xây dựng một hệ thống **Serverless & Event-Driven Game Backend** hoàn chỉnh trên AWS.
 
-![overview](/images/5-Workshop/5.1-Workshop-overview/diagram1.png)
+![Khai quát mô hình kiến trúc](/images/2-Proposal/serverless_game_backend_architecture.png)
+
+### Nội dung kiến trúc chính:
+*   **Xác thực người chơi (Player Authentication)**: Sử dụng **Amazon Cognito User Pool** để cấp phát JWT Token và **Amazon Cognito Identity Pool** để trao Temporary IAM Credentials scoped theo prefix trên Amazon S3.
+*   **Lưu trữ hàng đợi & Trận đấu**: Sử dụng **Amazon DynamoDB Single Table** với 2 bảng `MatchmakingQueue` (hàng đợi ghép trận) và `ActiveMatches` (các trận đấu đang diễn ra).
+*   **Hệ thống ghép trận (Matchmaking API)**: Xây dựng hàm **AWS Lambda Matchmaker** đặt trong Private Subnet, kết nối DynamoDB và EC2 API qua **VPC Endpoints**, tiếp nhận request qua **Amazon API Gateway** (REST API) tích hợp **Cognito Authorizer** và **AWS WAF**.
+*   **Fleet máy chủ Game (EC2 Spot Fleet & ASG)**: Khởi tạo cụm máy chủ game trên **Amazon EC2 Spot Instances (Graviton ARM64)** tích hợp **Auto Scaling Group Warm Pool**, tự động tải game bundle từ S3 khi khởi động.
+*   **Tự động hóa triển khai (GitOps CI/CD)**: Tích hợp **GitHub Actions OIDC** và **AWS CodeDeploy** để tự động cập nhật bản build, patch và game server bundle mà không gây gián đoạn dịch vụ (Zero-downtime).
+*   **Xử lý bất đồng bộ sau trận (Async Post-Match Analytics)**: Sử dụng **DynamoDB Streams** để kích hoạt **Async Lambda** thu thập log và kết quả trận đấu sau khi kết thúc.
+
+---
+
+### Thời lượng ước tính:
+*   **Thời gian thực hiện**: 60 - 90 phút.
+*   **Cấp độ**: Intermediate / Advanced.
+*   **Chi phí phát sinh**: Thấp (nằm trong Free Tier hoặc chi phí cực nhỏ cho EC2 Spot và Lambda/DynamoDB).

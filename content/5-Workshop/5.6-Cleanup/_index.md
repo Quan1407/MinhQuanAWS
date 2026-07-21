@@ -1,32 +1,59 @@
 ---
-title : "Clean up"
-date : 2024-01-01
-weight : 6
-chapter : false
-pre : " <b> 5.6. </b> "
+title: "Asynchronous Analytics"
+date: 2026-07-21
+weight: 6
+chapter: false
+pre: " <b> 5.6. </b> "
 ---
-Congratulations on completing this workshop! 
-In this workshop, you learned architecture patterns for accessing Amazon S3 without using the Public Internet. 
-+ By creating a gateway endpoint, you enabled direct communication between EC2 resources and Amazon S3, without traversing an Internet Gateway. 
-+ By creating an interface endpoint you extended S3 connectivity to resources running in your on-premises data center via AWS Site-to-Site VPN or Direct Connect. 
 
-#### clean up
-1. Navigate to Hosted Zones on the left side of Route 53 console. Click the name of *s3.us-east-1.amazonaws.com* zone. Click Delete and confirm deletion by typing delete. 
+# Asynchronous Post-Match Analytics with DynamoDB Streams
 
-![hosted zone](/images/5-Workshop/5.6-Cleanup/delete-zone.png)
+In this section, we will enable **DynamoDB Streams** on the DynamoDB tables and implement the **MatchAnalytic Lambda** function to capture post-match logs, metrics, and player statistics asynchronously (Asynchronous Event Processing), isolating analytics tasks from the core matchmaking path.
 
-2. Disassociate the Route 53 Resolver Rule - myS3Rule from "VPC Onprem" and Delete it. 
+---
 
-![hosted zone](/images/5-Workshop/5.6-Cleanup/vpc.png)
+### Step 1: Enable DynamoDB Streams
+1. Navigate to **Amazon DynamoDB** -> **Tables** -> select table `ActiveMatches`.
+2. Open the **Exports and streams** tab -> **DynamoDB stream details**.
+3. Click **Turn on**, select **New and old images**, and click **Turn on stream**.
 
-4. Open the CloudFormation console  and delete the two CloudFormation Stacks that you created for this lab:
-+ PLOnpremSetup
-+ PLCloudSetup
+---
 
-![delete stack](/images/5-Workshop/5.6-Cleanup/delete-stack.png)
+### Step 2: Create IAM Role for MatchAnalytic Lambda
+1. Navigate to **AWS IAM** -> **Roles** -> **Create role**.
+2. Select Trusted Entity: **AWS service** -> **Lambda**.
+3. Name the role `MatchAnalyticLambdaRole`.
+4. Attach an inline policy granting stream read permissions:
 
-5. Delete S3 buckets
-+ Open S3 console
-+ Choose the bucket we created for the lab, click and confirm empty. Click delete and confirm delete.
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator",
+        "dynamodb:DescribeStream",
+        "dynamodb:ListStreams"
+      ],
+      "Resource": "arn:aws:dynamodb:ap-southeast-1:*:table/ActiveMatches/stream/*"
+    }
+  ]
+}
+```
 
-![delete s3](/images/5-Workshop/5.6-Cleanup/delete-s3.png)
+5. Click **Create role**.
+
+---
+
+### Step 3: Provision & Connect MatchAnalytic Lambda
+1. Navigate to **AWS Lambda** -> **Create function**.
+2. Set Function name to `MatchAnalyticLambda`, attach IAM Role `MatchAnalyticLambdaRole`.
+3. Click **Add trigger**, select **DynamoDB**.
+4. Select table `ActiveMatches`, Batch size: `100`, Starting position: **Latest**. Click **Add**.
+
+![Create MatchAnalytic Lambda & DynamoDB Stream Trigger](/images/5-Workshop/img_B/image8.png)
+
+5. Paste the post-match log parser code under **Code** and click **Deploy**.
+6. When a game match ends and updates DynamoDB, DynamoDB Streams trigger `MatchAnalyticLambda` to process and stream telemetry data directly to S3/analytics stores without incurring RTT latency overhead on active players.
