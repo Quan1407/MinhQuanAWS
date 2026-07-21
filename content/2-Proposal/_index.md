@@ -1,110 +1,181 @@
 ---
 title: "Proposal"
-date: 2024-01-01
+date: 2026-07-21
 weight: 2
 chapter: false
 pre: " <b> 2. </b> "
 ---
 
-# IoT Weather Platform for Lab Research
-## A Unified AWS Serverless Solution for Real-Time Weather Monitoring
+# Serverless & Event-Driven Game Backend on AWS
+## Cost-Optimized & Scalable Backend Architecture for Live-Service Games
 
 ### 1. Executive Summary
-The IoT Weather Platform is designed for the ITea Lab team in Ho Chi Minh City to enhance weather data collection and analysis. It supports up to 5 weather stations, with potential scalability to 10-15, utilizing Raspberry Pi edge devices with ESP32 sensors to transmit data via MQTT. The platform leverages AWS Serverless services to deliver real-time monitoring, predictive analytics, and cost efficiency, with access restricted to 5 lab members via Amazon Cognito.
+This proposal outlines an architectural solution for a **Live-Service Game Backend** running on AWS cloud infrastructure. Instead of maintaining an idle game server fleet 24/7 when no players are active, the system strictly adheres to an **on-demand compute provisioning model**: compute resources are spun up only during login, matchmaking, and live game session execution.
+
+The entire **Metagame** (authentication, asset distribution, matchmaking, and post-match storage) is built completely serverless. Live game sessions requiring dedicated hardware are hosted within an **EC2 Spot Fleet (Graviton ARM64 architecture)**, dynamically spun up on-demand by the Matchmaker. Deployment and updates are managed entirely via **GitOps (CI/CD Pipelines)**, eliminating manual code pushes to production environments.
+
+---
 
 ### 2. Problem Statement
-### What’s the Problem?
-Current weather stations require manual data collection, becoming unmanageable with multiple units. There is no centralized system for real-time data or analytics, and third-party platforms are costly and overly complex.
 
-### The Solution
-The platform uses AWS IoT Core to ingest MQTT data, AWS Lambda and API Gateway for processing, Amazon S3 for storage (including a data lake), and AWS Glue Crawlers and ETL jobs to extract, transform, and load data from the S3 data lake to another S3 bucket for analysis. AWS Amplify with Next.js provides the web interface, and Amazon Cognito ensures secure access. Similar to Thingsboard and CoreIoT, users can register new devices and manage connections, though this platform operates on a smaller scale and is designed for private use. Key features include real-time dashboards, trend analysis, and low operational costs.
+#### Current Problem
+*   **Substantial Idle Costs**: Traditional game server architectures maintain 24/7 dedicated virtual instances, creating immense infrastructure waste during off-peak hours when player traffic is minimal.
+*   **High Egress & Egress Gateway Costs**: Persistent NAT Gateways and Load Balancers incur continuous hourly charges and data transfer fees regardless of active usage.
+*   **Deployment & Release Overhead**: Deploying small game patches or updating server binaries traditionally requires rebaking full AMIs, slowing down release cycles and risking downtime.
+*   **Network Security Exposure**: Permanently open security group ports on game servers invite DDoS attempts and unauthorized network scanning.
 
-### Benefits and Return on Investment
-The solution establishes a foundational resource for lab members to develop a larger IoT platform, serving as a study resource, and provides a data foundation for AI enthusiasts for model training or analysis. It reduces manual reporting for each station via a centralized platform, simplifying management and maintenance, and improves data reliability. Monthly costs are $0.66 USD per the AWS Pricing Calculator, with a 12-month total of $7.92 USD. All IoT equipment costs are covered by the existing weather station setup, eliminating additional development expenses. The break-even period of 6-12 months is achieved through significant time savings from reduced manual work.
+#### Proposed Solution
+The system enforces a core design rule: **Serverless for everything except live game sessions**. Dedicated game sessions reside behind a dedicated network boundary within a VPC, fully decoupled from authentication and matchmaking flows.
+
+The architecture comprises four independent processing flows with isolated triggers and trust boundaries:
+1.  **Flow C (GitOps Deployment Loop)**: Automates CI/CD via GitHub Actions and AWS CodeDeploy, updates Lambda Alias versions, uploads asset bundles to S3, and updates EC2 Launch Templates without impacting active matches.
+2.  **Flow A (Player Auth & Asset Distribution)**: Authenticates players via Amazon Cognito User Pool and grants scoped temporary IAM credentials via Cognito Identity Pool for direct asset/patch downloads from S3.
+3.  **Flow R (Synchronous Matchmaking & EC2 Control Plane)**: Handles synchronous matchmaking requests via CloudFront + WAF, API Gateway, and Matchmaker Lambda in a Private Subnet. Lambda invokes the EC2 Control Plane over a private VPC Interface Endpoint to request warm Spot instances, opens dynamic Security Group rules per player/session, and returns connection endpoints to the client.
+4.  **Flow E (Asynchronous Post-Match Processing & Analytics)**: Asynchronously captures post-match logs and metrics using DynamoDB Streams and Async Lambda, fully decoupled to avoid matchmaking latency.
+
+#### Benefits & Return on Investment (ROI)
+*   **Up to 70-80% Cost Savings**: Leverages ARM64 Graviton EC2 Spot instances combined with zero-idle serverless compute. Eliminates NAT Gateway and persistent Load Balancer costs.
+*   **Enhanced Security Posture**: All requests require valid JWT validation before reaching application code. Game server security groups open dynamically per player IP during a match and are revoked immediately afterward.
+*   **Zero-Downtime Patching**: Centralized S3 asset bundling enables EC2 UserData scripts to pull the latest binaries on boot without requiring full AMI rebakes.
+
+---
 
 ### 3. Solution Architecture
-The platform employs a serverless AWS architecture to manage data from 5 Raspberry Pi-based stations, scalable to 15. Data is ingested via AWS IoT Core, stored in an S3 data lake, and processed by AWS Glue Crawlers and ETL jobs to transform and load it into another S3 bucket for analysis. Lambda and API Gateway handle additional processing, while Amplify with Next.js hosts the dashboard, secured by Cognito. The architecture is detailed below:
 
-![IoT Weather Station Architecture](/images/2-Proposal/edge_architecture.jpeg)
+#### Overall Architecture Diagram
+![Serverless & Event-Driven Game Backend Architecture](/images/2-Proposal/serverless_game_backend_architecture.png)
 
-![IoT Weather Platform Architecture](/images/2-Proposal/platform_architecture.jpeg)
+#### Architectural Flow Breakdown:
 
-### AWS Services Used
-- **AWS IoT Core**: Ingests MQTT data from 5 stations, scalable to 15.
-- **AWS Lambda**: Processes data and triggers Glue jobs (two functions).
-- **Amazon API Gateway**: Facilitates web app communication.
-- **Amazon S3**: Stores raw data in a data lake and processed outputs (two buckets).
-- **AWS Glue**: Crawlers catalog data, and ETL jobs transform and load it.
-- **AWS Amplify**: Hosts the Next.js web interface.
-- **Amazon Cognito**: Secures access for lab users.
+##### 1. Flow C — GitOps Deployment Loop
+*   **C1 - C2**: Developers push code and IaC to the Git Repository. GitHub Actions triggers the artifact build pipeline.
+*   **C3**: CodeDeploy performs traffic shifting to new Lambda Version Aliases and updates EC2 Launch Templates.
+*   **C4**: Client builds, patches, and server bundles are uploaded to Amazon S3. Faulty releases trigger automatic rollbacks without interrupting live matchmaking.
 
-### Component Design
-- **Edge Devices**: Raspberry Pi collects and filters sensor data, sending it to IoT Core.
-- **Data Ingestion**: AWS IoT Core receives MQTT messages from the edge devices.
-- **Data Storage**: Raw data is stored in an S3 data lake; processed data is stored in another S3 bucket.
-- **Data Processing**: AWS Glue Crawlers catalog the data, and ETL jobs transform it for analysis.
-- **Web Interface**: AWS Amplify hosts a Next.js app for real-time dashboards and analytics.
-- **User Management**: Amazon Cognito manages user access, allowing up to 5 active accounts.
+##### 2. Flow A — Player Auth & Security
+*   **A1 - A2**: Players log in; Cognito User Pool authenticates and issues JWT Tokens.
+*   **A3 - A4**: Clients exchange JWTs at Cognito Identity Pool for scoped temporary IAM credentials to download assets directly from S3.
+*   **A5**: JWT Tokens are passed to Flow R where API Gateway Cognito Authorizers validate requests before invoking the Matchmaker Lambda.
+
+##### 3. Flow R — Request & Matchmaking
+*   **R1 - R2**: Matchmaking requests pass through CloudFront + AWS WAF to API Gateway.
+*   **R3 - R4**: Matchmaker Lambda (in a Private Subnet) writes match state to Amazon DynamoDB via a VPC Gateway Endpoint.
+*   **G1 - G2**: Matchmaker Lambda calls the EC2 Control Plane via a private VPC Interface Endpoint to request warm instances from the ASG Spot fleet and opens dynamic Security Group rules.
+*   **G3 - G4**: EC2 Spot instances boot in the Public Subnet, using UserData scripts and IAM Instance Profiles to pull the latest server binaries from S3.
+*   **R5**: Lambda returns the public IP/Port to the client, establishing direct UDP/TCP game connections via the Internet Gateway.
+
+##### 4. Flow E — Asynchronous Processing
+*   **E1 - E3**: Post-match results are written to DynamoDB. DynamoDB Streams automatically trigger Async Lambda functions to process logs and push analytics, completely decoupled from matchmaking latency.
+
+#### AWS Services Used
+-   **Amazon Cognito**: User authentication (User Pool) and scoped temporary credential delegation (Identity Pool).
+-   **Amazon API Gateway & CloudFront + AWS WAF**: Edge request routing, DDoS protection, and web application security.
+-   **AWS Lambda**: Serverless matchmaking logic, version aliasing, and post-match processing.
+-   **Amazon EC2 Spot Fleet (Graviton ARM64)**: Cost-optimized live game server instances.
+-   **Amazon DynamoDB**: Single Table Design for match state and event streaming via DynamoDB Streams.
+-   **Amazon S3**: Centralized asset, build, patch, and server bundle repository.
+-   **VPC Endpoints**: Gateway Endpoint (DynamoDB) and Interface Endpoint (EC2 API) for private, in-network service communication.
+-   **AWS CodeDeploy & GitHub Actions**: Automated GitOps deployment pipeline.
+-   **AWS KMS & Amazon CloudWatch**: Encryption at rest/in transit and comprehensive monitoring.
+
+---
 
 ### 4. Technical Implementation
-**Implementation Phases**
-This project has two parts—setting up weather edge stations and building the weather platform—each following 4 phases:
-- Build Theory and Draw Architecture: Research Raspberry Pi setup with ESP32 sensors and design the AWS serverless architecture (1 month pre-internship)
-- Calculate Price and Check Practicality: Use AWS Pricing Calculator to estimate costs and adjust if needed (Month 1).
-- Fix Architecture for Cost or Solution Fit: Tweak the design (e.g., optimize Lambda with Next.js) to stay cost-effective and usable (Month 2).
-- Develop, Test, and Deploy: Code the Raspberry Pi setup, AWS services with CDK/SDK, and Next.js app, then test and release to production (Months 2-3).
 
-**Technical Requirements**
-- Weather Edge Station: Sensors (temperature, humidity, rainfall, wind speed), a microcontroller (ESP32), and a Raspberry Pi as the edge device. Raspberry Pi runs Raspbian, handles Docker for filtering, and sends 1 MB/day per station via MQTT over Wi-Fi.
-- Weather Platform: Practical knowledge of AWS Amplify (hosting Next.js), Lambda (minimal use due to Next.js), AWS Glue (ETL), S3 (two buckets), IoT Core (gateway and rules), and Cognito (5 users). Use AWS CDK/SDK to code interactions (e.g., IoT Core rules to S3). Next.js reduces Lambda workload for the fullstack web app.
+#### Implementation Phases
+1.  **Phase 1: Architecture Research & Design (Month 1)**
+    *   Latency and bandwidth requirements analysis; DynamoDB Single Table schema design.
+    *   VPC network layout (Public Subnets for EC2 Game Fleet, Private Subnets for Matchmaker Lambda and VPC Endpoints).
+2.  **Phase 2: IaC & GitOps Pipeline Setup (Months 1-2)**
+    *   Provision AWS infrastructure using Terraform / AWS CDK.
+    *   Establish GitHub Actions CI/CD workflows for Flow C (artifact build, S3 upload, and CodeDeploy automation).
+3.  **Phase 3: Auth & Matchmaking Flow Implementation (Month 2)**
+    *   Configure Cognito User Pool & Identity Pool (Flow A).
+    *   Develop Matchmaker Lambda, API Gateway Cognito Authorizers, and CloudFront + WAF edge security (Flow R).
+4.  **Phase 4: EC2 Spot Fleet & VPC Endpoints Integration (Months 2-3)**
+    *   Create Launch Templates for Graviton ARM64 EC2 Spot Fleets with UserData boot scripts.
+    *   Deploy VPC Gateway Endpoints (DynamoDB) and Interface Endpoints (EC2 API).
+    *   Implement dynamic Security Group IP rule management for player sessions.
+5.  **Phase 5: Asynchronous Analytics & Load Testing (Month 3)**
+    *   Enable DynamoDB Streams and Async Lambda functions for post-match data pipelines (Flow E).
+    *   Perform load testing, simulate player traffic spikes, and validate Spot interruption handling.
+
+#### Technical Requirements & Security
+-   **Multi-Layer Authentication**: Strict JWT token validation on all API endpoints.
+-   **Dynamic Port Security**: No permanently open inbound ports. Security group rules are granted dynamically per player IP during active matches and revoked immediately post-match.
+-   **Private Network Isolation**: Matchmaker Lambda resides in Private Subnets, interacting with DynamoDB and EC2 APIs via private VPC Endpoints.
+-   **Data Protection**: Data at rest encrypted via AWS KMS; data in transit encrypted via TLS 1.3.
+
+---
 
 ### 5. Timeline & Milestones
-**Project Timeline**
-- Pre-Internship (Month 0): 1 month for planning and old station review.
-- Internship (Months 1-3): 3 months.
-    - Month 1: Study AWS and upgrade hardware.
-    - Month 2: Design and adjust architecture.
-    - Month 3: Implement, test, and launch.
-- Post-Launch: Up to 1 year for research.
+
+```
++-----------------------------------------------------------------------------------+
+| Month 1: Research & IaC Infrastructure Design                                     |
+|   - VPC, Subnet, and Security Group layout design                                 |
+|   - DynamoDB Single Table schema and Serverless architecture definition           |
++-----------------------------------------------------------------------------------+
+                                  |
+                                  v
++-----------------------------------------------------------------------------------+
+| Month 2: Auth, Matchmaking & EC2 Spot Fleet Development                           |
+|   - Cognito User Pool / Identity Pool & S3 Scoped Credentials setup               |
+|   - API Gateway, Matchmaker Lambda & VPC Endpoints development                    |
+|   - Graviton ARM64 EC2 Spot Fleet Launch Template creation                        |
++-----------------------------------------------------------------------------------+
+                                  |
+                                  v
++-----------------------------------------------------------------------------------+
+| Month 3: GitOps Automation, Async Processing & Load Testing                       |
+|   - GitHub Actions + CodeDeploy CI/CD pipeline automation                         |
+|   - DynamoDB Streams + Async Lambda analytics pipeline implementation             |
+|   - Load testing, cost optimization, and final documentation                      |
++-----------------------------------------------------------------------------------+
+```
+
+---
 
 ### 6. Budget Estimation
-You can find the budget estimation on the [AWS Pricing Calculator](https://calculator.aws/#/estimate?id=621f38b12a1ef026842ba2ddfe46ff936ed4ab01).  
-Or you can download the [Budget Estimation File](../attachments/budget_estimation.pdf).
 
-### Infrastructure Costs
-- AWS Services:
-    - AWS Lambda: $0.00/month (1,000 requests, 512 MB storage).
-    - S3 Standard: $0.15/month (6 GB, 2,100 requests, 1 GB scanned).
-    - Data Transfer: $0.02/month (1 GB inbound, 1 GB outbound).
-    - AWS Amplify: $0.35/month (256 MB, 500 ms requests).
-    - Amazon API Gateway: $0.01/month (2,000 requests).
-    - AWS Glue ETL Jobs: $0.02/month (2 DPUs).
-    - AWS Glue Crawlers: $0.07/month (1 crawler).
-    - MQTT (IoT Core): $0.08/month (5 devices, 45,000 messages).
+By eliminating persistent NAT Gateways, avoiding standing Load Balancers, and utilizing Graviton ARM64 EC2 Spot instances, infrastructure costs are minimized:
 
-Total: $0.7/month, $8.40/12 months
+| AWS Service | Configuration / Estimated Scale | Estimated Monthly Cost (USD) |
+| :--- | :--- | :--- |
+| **AWS Lambda** (Matchmaker & Async) | 1,000,000 requests/month, 512MB RAM | ~$0.20 |
+| **Amazon API Gateway** | 1,000,000 HTTP requests/month | ~$1.00 |
+| **Amazon DynamoDB** | On-Demand Mode (Read/Write capacity units) | ~$2.50 |
+| **Amazon Cognito** | < 10,000 MAU (Monthly Active Users) | **Free Tier** |
+| **Amazon S3** | 20GB Asset, Client Build, Patch & Server Bundle storage | ~$0.46 |
+| **Amazon CloudFront & AWS WAF** | 50GB Egress, WAF Basic Rules | ~$3.50 |
+| **Amazon EC2 Spot Fleet** (Graviton ARM64) | `c6g.large` Spot Instance (~$0.02/hr), avg. 100 match hours/month | ~$2.00 |
+| **VPC Endpoints** | Gateway Endpoint (Free) + Interface Endpoint | ~$7.20 |
+| **Total Estimated Cost** | **Serverless & Event-Driven Game Backend** | **~$16.86 USD / Month** |
 
-- Hardware: $265 one-time (Raspberry Pi 5 and sensors).
+> [!TIP]
+> **Key Cost Highlights**:
+> 1. Zero NAT Gateway charges (saves ~$32/month).
+> 2. Zero standing Load Balancer charges (saves ~$20/month).
+> 3. Graviton ARM64 EC2 Spot reduces compute cost by 70-80%.
+> 4. Centralized S3 bundling maintains thin AMIs with minimal snapshot storage costs.
+
+---
 
 ### 7. Risk Assessment
-#### Risk Matrix
-- Network Outages: Medium impact, medium probability.
-- Sensor Failures: High impact, low probability.
-- Cost Overruns: Medium impact, low probability.
 
-#### Mitigation Strategies
-- Network: Local storage on Raspberry Pi with Docker.
-- Sensors: Regular checks and spares.
-- Cost: AWS budget alerts and optimization.
+#### Risk Matrix & Mitigation Strategies
 
-#### Contingency Plans
-- Revert to manual methods if AWS fails.
-- Use CloudFormation for cost-related rollbacks.
+| Identified Risk | Impact | Probability | Mitigation Strategy |
+| :--- | :---: | :---: | :--- |
+| **EC2 Spot Interruption** | High | Medium | Utilize Auto Scaling Groups with diversified Spot pools (Multi-AZ / Multi-Instance types). ASGs automatically rebalance upon receiving 2-minute interruption notices. |
+| **Traffic Spikes** | Medium | Medium | Metagame components (Cognito, API Gateway, Lambda, DynamoDB) are pure Serverless and auto-scale instantly with incoming demand. |
+| **Security Breach / Unauthorized Access** | High | Low | Enforce JWT token verification at API Gateway. Dynamically revoke Security Group rules post-match. Private Subnet isolation via VPC Endpoints. |
+| **Faulty Build Deployment** | Medium | Low | GitOps pipeline supports automated zero-downtime rollbacks for Lambda Version Aliases and Launch Templates. |
+
+---
 
 ### 8. Expected Outcomes
-#### Technical Improvements: 
-Real-time data and analytics replace manual processes.  
-Scalable to 10-15 stations.
-#### Long-term Value
-1-year data foundation for AI research.  
-Reusable for future projects.
+
+*   **Architectural Excellence**: Successful deployment of a Production-Ready, Serverless & Event-Driven Game Backend delivering ultra-low matchmaking latency and instant scalability.
+*   **Extreme Cost Efficiency**: Demonstrates a true pay-as-you-go operational model, delivering >75% cost savings over traditional 24/7 server infrastructure.
+*   **Long-Term Value**: Provides a reusable **Architectural Blueprint** for deploying future live-service games on AWS.
