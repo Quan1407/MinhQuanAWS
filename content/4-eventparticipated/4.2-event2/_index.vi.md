@@ -96,8 +96,8 @@ Workshop cho thấy AI đang trở thành xu hướng quan trọng trong lĩnh v
 
 ### Một số hình ảnh khi tham gia sự kiện
 
-![Slide giới thiệu về AgenticOps cho hạ tầng Cloud](/images/4-eventparticipated/event2/slide_agenticops.png)
+![Slide giới thiệu về AgenticOps cho hạ tầng Cloud](/images/4-eventparticipated/event2/slide_agenticops.png?v=2)
 
-![Toàn cảnh diễn giả chia sẻ tại hội trường sự kiện FCAJ Community Day](/images/4-eventparticipated/event2/event_hall_presentation.png)
+![Toàn cảnh diễn giả chia sẻ tại hội trường sự kiện FCAJ Community Day](/images/4-eventparticipated/event2/event_hall_presentation.png?v=2)
 
-![Hình ảnh tập thể tất cả các thành viên tham gia sự kiện FCAJ Community Day](/images/4-eventparticipated/event2/group_photo_fcaj.png)
+![Hình ảnh tập thể tất cả các thành viên tham gia sự kiện FCAJ Community Day](/images/4-eventparticipated/event2/group_photo_fcaj.png?v=2)

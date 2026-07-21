@@ -5,8 +5,10 @@ weight: 2
 chapter: false
 pre: " <b> 4.2. </b> "
 aliases:
-  - /4-eventparticipated/4.2-event2/
   - /4-eventparticipated/4.2-Event2/
+  - /4-eventparticipated/4.2-event2/
+  - /4-EventParticipated/4.2-Event2/
+  - /4-EventParticipated/4.2-event2/
 ---
 
 # Event Summary: “FCAJ Community Day”
@@ -76,8 +78,8 @@ Recognized that AI serves not only as a content creation tool but also as a smar
 
 ### Event Impressions & Photos
 
-![AgenticOps presentation slide](/images/4-eventparticipated/event2/slide_agenticops.png)
+![AgenticOps presentation slide](/images/4-eventparticipated/event2/slide_agenticops.png?v=2)
 
-![Speaker presentation at FCAJ Community Day](/images/4-eventparticipated/event2/event_hall_presentation.png)
+![Speaker presentation at FCAJ Community Day](/images/4-eventparticipated/event2/event_hall_presentation.png?v=2)
 
-![Group photo of all FCAJ Community Day participants](/images/4-eventparticipated/event2/group_photo_fcaj.png)
+![Group photo of all FCAJ Community Day participants](/images/4-eventparticipated/event2/group_photo_fcaj.png?v=2)
