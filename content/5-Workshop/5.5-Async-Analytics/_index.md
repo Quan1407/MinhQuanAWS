@@ -4,6 +4,9 @@ date: 2026-07-21
 weight: 5
 chapter: false
 pre: " <b> 5.5. </b> "
+aliases:
+  - /5-workshop/5.1-serverless-game-backend/5.1.5-async-analytics/
+  - /5-workshop/5.1-Serverless-Game-Backend/5.1.5-async-analytics/
 ---
 
 # 5.5. Asynchronous Post-Match Analytics with DynamoDB Streams

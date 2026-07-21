@@ -4,6 +4,9 @@ date: 2026-07-21
 weight: 6
 chapter: false
 pre: " <b> 5.6. </b> "
+aliases:
+  - /5-workshop/5.1-serverless-game-backend/5.1.6-cleanup/
+  - /5-workshop/5.1-Serverless-Game-Backend/5.1.6-cleanup/
 ---
 
 # 5.6. Dọn dẹp Tài nguyên (Resource Cleanup)

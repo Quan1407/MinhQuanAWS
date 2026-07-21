@@ -4,6 +4,9 @@ date: 2026-07-21
 weight: 4
 chapter: false
 pre: " <b> 5.4. </b> "
+aliases:
+  - /5-workshop/5.1-serverless-game-backend/5.1.4-ec2-fleet-gitops/
+  - /5-workshop/5.1-Serverless-Game-Backend/5.1.4-ec2-fleet-gitops/
 ---
 
 # 5.4. Cấu hình EC2 Spot Fleet, Launch Template & GitOps CodeDeploy

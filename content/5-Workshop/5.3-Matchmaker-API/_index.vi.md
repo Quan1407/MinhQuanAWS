@@ -4,6 +4,9 @@ date: 2026-07-21
 weight: 3
 chapter: false
 pre: " <b> 5.3. </b> "
+aliases:
+  - /5-workshop/5.1-serverless-game-backend/5.1.3-matchmaker-api/
+  - /5-workshop/5.1-Serverless-Game-Backend/5.1.3-matchmaker-api/
 ---
 
 # 5.3. Xây dựng Lambda Matchmaker & API Gateway REST API

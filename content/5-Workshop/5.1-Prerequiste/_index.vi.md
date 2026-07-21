@@ -7,6 +7,8 @@ pre: " <b> 5.1. </b> "
 aliases:
   - /5-workshop/5.1-serverless-game-backend/
   - /5-workshop/5.1-workshop-overview/
+  - /5-workshop/5.1-serverless-game-backend/5.1.1-prerequiste/
+  - /5-workshop/5.1-Serverless-Game-Backend/5.1.1-prerequiste/
 ---
 
 # 5.1. Chuẩn bị Môi trường & Thiết lập Region
