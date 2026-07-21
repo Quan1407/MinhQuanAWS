@@ -10,23 +10,23 @@ pre: " <b> 5. </b> "
 
 #### Tổng quan bài Thực hành (Workshop)
 
-Trong bài thực hành này, chúng ta sẽ từng bước triển khai hạ tầng đám mây hoàn chỉnh cho một hệ thống **Game Live-Service** trên AWS. Hệ thống vận hành theo cơ chế Serverless & Event-Driven, giúp tối ưu chi phí hạ tầng tối đa nhờ chỉ khởi chạy tài nguyên máy chủ EC2 Spot khi có phiên trận đấu thực tế.
+Trong phần này, chúng ta sẽ thực hiện xây dựng bài Workshop về **Xây dựng Serverless & Event-Driven Game Backend trên AWS** được cấu trúc theo chương **5.1** và các phần chi tiết **5.1.x**.
 
 #### Mục tiêu đạt được:
-1.  **Xác thực người chơi (Player Authentication)**: Khởi tạo Amazon Cognito User Pool để xác thực tài khoản và Amazon Cognito Identity Pool để cấp phát IAM Temporary Credentials cho client tải asset/patch từ S3.
-2.  **Lưu trữ trạng thái trận đấu (Match State Storage)**: Khởi tạo các bảng DynamoDB (`MatchmakingQueue` và `ActiveMatches`) theo thiết kế tối ưu cho lưu lượng cao.
-3.  **Hệ thống ghép trận (Matchmaking Pipeline)**: Viết mã nguồn AWS Lambda Matchmaker xử lý request `POST /join` và `GET /check`, tạo REST API Gateway được bảo vệ bởi Cognito Authorizer và kích hoạt CORS.
-4.  **Tự động hóa Fleet máy chủ Game (Game Server Fleet & GitOps)**: Khởi tạo EC2 Ubuntu 24.04 LTS Game Server, tạo AMI, Launch Template cho EC2 Spot Fleet và ASG Warm Pool; cấu hình GitHub OIDC Provider và AWS CodeDeploy cho luồng CI/CD tự động.
-5.  **Xử lý phân tích sau trận đấu (Asynchronous Analytics)**: Kích hoạt DynamoDB Streams và viết Async Lambda thu thập dữ liệu sau trận mà không ảnh hưởng tới độ trễ ghép trận.
+1.  **Xác thực người chơi (Player Authentication)**: Khởi tạo Amazon Cognito User Pool & Identity Pool.
+2.  **Lưu trữ hàng đợi & Trận đấu**: Khởi tạo 2 bảng DynamoDB `MatchmakingQueue` và `ActiveMatches`.
+3.  **Hệ thống ghép trận (Matchmaking Pipeline)**: Viết mã nguồn AWS Lambda Matchmaker, tạo REST API Gateway tích hợp Cognito Authorizer & CORS.
+4.  **Tự động hóa Fleet máy chủ Game (EC2 Spot Fleet & GitOps)**: Khởi tạo EC2 Game Server, AMI, Launch Template cho EC2 Spot Fleet với ASG Warm Pool, cấu hình GitHub OIDC & AWS CodeDeploy.
+5.  **Xử lý phân tích sau trận đấu (Asynchronous Analytics)**: Kích hoạt DynamoDB Streams và Async Lambda.
 
 ---
 
-#### Danh sách các bước triển khai:
+#### Danh sách nội dung thực hành:
 
-1. [5.1. Tổng quan bài Workshop](5.1-workshop-overview/)
-2. [5.2. Chuẩn bị môi trường & Chọn Region](5.2-prerequiste/)
-3. [5.3. Khởi tạo Amazon Cognito & DynamoDB Tables](5.3-cognito-dynamodb/)
-4. [5.4. Xây dựng Lambda Matchmaker & API Gateway REST API](5.4-matchmaker-api/)
-5. [5.5. Cấu hình EC2 Spot Fleet, Launch Template & GitOps CodeDeploy](5.5-ec2-fleet-gitops/)
-6. [5.6. Xử lý Asynchronous Post-Match với DynamoDB Streams & Analytics Lambda](5.6-async-analytics/)
-7. [5.7. Dọn dẹp tài nguyên](5.7-cleanup/)
+1. [5.1. Xây dựng Serverless & Event-Driven Game Backend trên AWS](5.1-serverless-game-backend/)
+   * [5.1.1. Chuẩn bị môi trường & Thiết lập Region](5.1-serverless-game-backend/5.1.1-prerequiste/)
+   * [5.1.2. Khởi tạo Amazon Cognito & DynamoDB Tables](5.1-serverless-game-backend/5.1.2-cognito-dynamodb/)
+   * [5.1.3. Xây dựng Lambda Matchmaker & API Gateway REST API](5.1-serverless-game-backend/5.1.3-matchmaker-api/)
+   * [5.1.4. Cấu hình EC2 Spot Fleet, Launch Template & GitOps CodeDeploy](5.1-serverless-game-backend/5.1.4-ec2-fleet-gitops/)
+   * [5.1.5. Xử lý Asynchronous Analytics với DynamoDB Streams & Lambda](5.1-serverless-game-backend/5.1.5-async-analytics/)
+   * [5.1.6. Dọn dẹp tài nguyên](5.1-serverless-game-backend/5.1.6-cleanup/)

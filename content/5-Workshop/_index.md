@@ -10,23 +10,23 @@ pre: " <b> 5. </b> "
 
 #### Workshop Overview
 
-In this hands-on workshop, we will step-by-step deploy a complete cloud infrastructure for a **Live-Service Game Backend** on AWS. The system utilizes a Serverless & Event-Driven architecture, maximizing cost savings by only spinning up EC2 Spot instances during active game sessions.
+In this section, we will construct the hands-on workshop **Building a Serverless & Event-Driven Game Backend on AWS**, structured under Chapter **5.1** and detailed sub-sections **5.1.x**.
 
-#### Workshop Objectives:
-1.  **Player Authentication**: Configure Amazon Cognito User Pool for user authentication and Amazon Cognito Identity Pool to delegate scoped temporary IAM credentials for direct S3 asset/patch downloads.
-2.  **Match State Storage**: Provision Amazon DynamoDB tables (`MatchmakingQueue` and `ActiveMatches`) optimized for high-throughput match queues.
-3.  **Matchmaking Pipeline**: Develop the AWS Lambda Matchmaker logic to handle `POST /join` and `GET /check` endpoints, exposed via API Gateway REST API secured by Cognito Authorizers and CORS.
-4.  **Game Server Fleet & GitOps Automation**: Provision an EC2 Ubuntu 24.04 LTS Game Server, bake custom AMIs, configure Launch Templates for EC2 Spot Fleets with ASG Warm Pools, and set up GitHub OIDC with AWS CodeDeploy for automated CI/CD pipelines.
-5.  **Asynchronous Post-Match Analytics**: Enable DynamoDB Streams and implement an Async Lambda worker to process post-match logs without adding latency to matchmaking.
+#### Objectives:
+1.  **Player Authentication**: Configure Amazon Cognito User Pools and Identity Pools.
+2.  **Match State Storage**: Provision Amazon DynamoDB tables `MatchmakingQueue` and `ActiveMatches`.
+3.  **Matchmaking Pipeline**: Implement AWS Lambda Matchmaker and API Gateway REST API with Cognito Authorizers and CORS.
+4.  **Game Fleet & GitOps**: Create EC2 Game Servers, custom AMIs, Launch Templates for EC2 Spot Fleets with ASG Warm Pools, and GitHub OIDC with AWS CodeDeploy.
+5.  **Asynchronous Analytics**: Enable DynamoDB Streams and Async Lambda.
 
 ---
 
-#### Workshop Agenda:
+#### Agenda:
 
-1. [5.1. Workshop Overview](5.1-workshop-overview/)
-2. [5.2. Prerequisites & Region Setup](5.2-prerequiste/)
-3. [5.3. Amazon Cognito & DynamoDB Tables Setup](5.3-cognito-dynamodb/)
-4. [5.4. Lambda Matchmaker & API Gateway REST API Deployment](5.4-matchmaker-api/)
-5. [5.5. EC2 Spot Fleet, Launch Template & GitOps CodeDeploy Setup](5.5-ec2-fleet-gitops/)
-6. [5.6. Asynchronous Post-Match Analytics with DynamoDB Streams](5.6-async-analytics/)
-7. [5.7. Resource Cleanup](5.7-cleanup/)
+1. [5.1. Building a Serverless & Event-Driven Game Backend on AWS](5.1-serverless-game-backend/)
+   * [5.1.1. Prerequisites & Region Setup](5.1-serverless-game-backend/5.1.1-prerequiste/)
+   * [5.1.2. Amazon Cognito & DynamoDB Tables Setup](5.1-serverless-game-backend/5.1.2-cognito-dynamodb/)
+   * [5.1.3. Lambda Matchmaker & API Gateway REST API Deployment](5.1-serverless-game-backend/5.1.3-matchmaker-api/)
+   * [5.1.4. EC2 Spot Fleet, Launch Template & GitOps CodeDeploy Setup](5.1-serverless-game-backend/5.1.4-ec2-fleet-gitops/)
+   * [5.1.5. Asynchronous Analytics with DynamoDB Streams & Lambda](5.1-serverless-game-backend/5.1.5-async-analytics/)
+   * [5.1.6. Resource Cleanup](5.1-serverless-game-backend/5.1.6-cleanup/)
