@@ -19,7 +19,7 @@ pre: " <b> 1.12. </b> "
 | 2 | Thiết kế mô hình hệ thống sử dụng EC2, RDS, S3 và Load Balancer cho dự án tổng hợp | 12/07/2026 | 13/07/2026 | <https://cloudjourney.awsstudygroup.com/> |
 | 3 | Cấu hình mạng bảo mật VPC, Security Groups và gán IAM Roles phù hợp | 13/07/2026 | 14/07/2026 | <https://cloudjourney.awsstudygroup.com/> |
 | 4 | Triển khai mã nguồn ứng dụng, kiểm thử tính năng chịu lỗi và giám sát hệ thống | 14/07/2026 | 15/07/2026 | <https://cloudjourney.awsstudygroup.com/> |
-| 5 | Đánh giá tổng kết kết quả thực tập và tự hệ thống hóa kiến thức đã học | 15/07/2026 | 16/07/2026 | |
+| 5 | Đánh giá tổng kết quả thực tập và tự hệ thống hóa kiến thức đã học | 15/07/2026 | 16/07/2026 | |
 
 ### Kết quả đạt được tuần 12:
 * Thiết kế thành công mô hình hạ tầng chuẩn sản xuất (production-ready) trên AWS.
