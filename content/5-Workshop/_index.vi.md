@@ -12,6 +12,10 @@ pre: " <b> 5. </b> "
 
 Nội dung phần Workshop được cấu trúc thành các chương chính từ **5.1** đến **5.6** và các bài thực hành chi tiết **5.x.y** dưới đây:
 
+> [!NOTE]
+> * **Link Web Demo**: [http://fighting-game-assets-508768431157.s3-website-ap-southeast-1.amazonaws.com/](http://fighting-game-assets-508768431157.s3-website-ap-southeast-1.amazonaws.com/)
+> * **Link Source Code**: [https://github.com/Nothingtoread/fighting-game/tree/main](https://github.com/Nothingtoread/fighting-game/tree/main)
+
 ---
 
 #### Danh sách các chương thực hành:
