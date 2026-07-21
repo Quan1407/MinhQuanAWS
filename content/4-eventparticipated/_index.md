@@ -9,11 +9,13 @@ pre: " <b> 4. </b> "
 During my internship, I participated in events that provided valuable insights into modern cloud solutions and artificial intelligence:
 
 ### [Event 1](4.1-event1/)
-&emsp;**Event Title:** GenAI-powered App-DB Modernization workshop
+&emsp;**Event Title:** FCAJ Community
 
-&emsp;**Date:** 09:00, August 13, 2025
+&emsp;**Date:** Academic Conference (Co-organized with HUTECH University and Swinburne University of Technology)
 
-&emsp;**Location:** 26th Floor, Bitexco Financial Tower, 02 Hai Trieu, Saigon Ward, Ho Chi Minh City
+&emsp;**Location:** Bitexco Financial Tower (AWS Vietnam Office)
+
+&emsp;**Organizer:** AWS G3 Team in collaboration with First Cloud Journey Community
 
 &emsp;**Role:** Participant
 
